@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Contact Space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e1320;--bg2:#141b2e;
+  --ink:#eef1f8;--ink-soft:#aab2c8;--ink-faint:#6f7793;
+  --gold:#d9b878;--gold-soft:#b89a63;
+  --line:rgba(217,184,120,.22);--line-soft:rgba(255,255,255,.08);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --engel:#9db8e8;--orakel:#c0a6e6;--overvloed:#e8c87f;
+  --chakra:#7fd1c0;--element:#e89f7f;--kind:#e89fc4;
+  --maan:#a8b4d8;--kracht:#d8b06a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-weight:300;color:var(--ink);
+  background:
+    radial-gradient(900px 700px at 18% -5%,rgba(157,184,232,.10),transparent 60%),
+    radial-gradient(900px 700px at 85% 8%,rgba(192,166,230,.10),transparent 60%),
+    radial-gradient(1100px 900px at 50% 110%,rgba(232,200,127,.08),transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+  background-attachment:fixed;min-height:100vh;line-height:1.7;overflow-x:hidden}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.stars span{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.5;animation:tw 4s infinite ease-in-out}
+@keyframes tw{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.7;transform:scale(1.3)}}
+/* floating golden motes */
+.motes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.mote{position:absolute;bottom:-10px;border-radius:50%;background:radial-gradient(circle,rgba(217,184,120,.9),rgba(217,184,120,0) 70%);animation:float linear infinite}
+@keyframes float{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:.7}90%{opacity:.5}100%{transform:translateY(-105vh) translateX(var(--drift));opacity:0}}
+/* sparkle burst */
+.spark{position:fixed;width:6px;height:6px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:999;box-shadow:0 0 8px 2px rgba(217,184,120,.7)}
+@keyframes burst{to{transform:translate(var(--bx),var(--by)) scale(0);opacity:0}}
+.wrap{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:0 22px 90px}
+
+header{text-align:center;padding:64px 0 30px}
+.eyebrow{font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(40px,9vw,66px);line-height:1.04}
+h1 em{font-style:italic;color:var(--gold)}
+.sub{font-family:var(--serif);font-style:italic;font-size:clamp(17px,3.5vw,21px);color:var(--ink-soft);margin-top:12px}
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:26px auto 0;max-width:240px}
+.divider::before,.divider::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+.divider span{color:var(--gold);font-size:13px}
+
+nav{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:0 0 40px;position:sticky;top:12px;z-index:20}
+.nav-btn{font-family:var(--sans);font-weight:400;font-size:13px;letter-spacing:.03em;color:var(--ink-soft);background:rgba(20,27,46,.78);backdrop-filter:blur(12px);border:1px solid var(--line-soft);padding:10px 16px;border-radius:999px;cursor:pointer;transition:all .35s cubic-bezier(.2,.7,.3,1)}
+.nav-btn:hover{color:var(--ink);border-color:var(--line)}
+.nav-btn.active{color:var(--bg);background:linear-gradient(180deg,var(--gold),var(--gold-soft));border-color:transparent;font-weight:500}
+
+.panel{display:none;animation:rise .6s cubic-bezier(.2,.7,.3,1)}
+.panel.show{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-family:var(--serif);font-weight:500;font-size:30px;text-align:center;margin-bottom:8px}
+.section-note{text-align:center;color:var(--ink-soft);max-width:540px;margin:0 auto 34px;font-size:15.5px}
+
+.btn{font-family:var(--sans);font-weight:400;letter-spacing:.04em;font-size:14.5px;color:var(--bg);background:linear-gradient(180deg,var(--gold),var(--gold-soft));border:none;padding:14px 30px;border-radius:999px;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 8px 30px rgba(217,184,120,.18)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(217,184,120,.3)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{color:var(--ink);border-color:var(--gold-soft)}
+
+.ground-card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line-soft);border-radius:24px;padding:46px 32px;text-align:center;backdrop-filter:blur(6px)}
+.breath{width:120px;height:120px;margin:8px auto 26px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative}
+.breath::before{content:"";position:absolute;inset:14px;border-radius:50%;background:radial-gradient(circle,rgba(217,184,120,.4),transparent 70%);animation:breathe 8s infinite ease-in-out}
+.breath i{font-style:normal;color:var(--gold);font-size:13px;letter-spacing:.25em;text-transform:uppercase;z-index:1}
+@keyframes breathe{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1.25);opacity:1}}
+.ground-text{font-family:var(--serif);font-size:25px;line-height:1.45;min-height:80px;display:flex;align-items:center;justify-content:center}
+
+.deck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:30px}
+@media(max-width:620px){.deck-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.deck-grid{grid-template-columns:1fr}}
+.deck-btn{font-family:var(--sans);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line-soft);border-radius:18px;padding:18px 12px;cursor:pointer;text-align:center;color:var(--ink-soft);transition:all .4s cubic-bezier(.2,.7,.3,1)}
+.deck-btn .dot{width:28px;height:28px;border-radius:50%;margin:0 auto 11px;opacity:.9}
+.deck-btn .dn{font-family:var(--serif);font-size:18px;color:var(--ink);display:block;margin-bottom:2px;line-height:1.2}
+.deck-btn .dd{font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+.deck-btn:hover{transform:translateY(-3px);border-color:var(--line)}
+.deck-btn.active{border-color:var(--gold);background:linear-gradient(180deg,rgba(217,184,120,.12),rgba(217,184,120,.03))}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:24px}
+.card{width:290px;height:410px;cursor:pointer;perspective:1400px;position:relative}
+.card.drawing{animation:cardGlow 1.1s ease-in-out}
+@keyframes cardGlow{0%,100%{filter:drop-shadow(0 0 0 rgba(217,184,120,0))}50%{filter:drop-shadow(0 0 28px rgba(217,184,120,.65))}}
+.card-inner{position:relative;width:100%;height:100%;transition:transform .9s cubic-bezier(.2,.8,.25,1);transform-style:preserve-3d}
+.card.flipped .card-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;display:flex;align-items:center;justify-content:center;padding:32px;text-align:center;border:1px solid var(--line)}
+.face-back{background:repeating-linear-gradient(45deg,rgba(217,184,120,.05) 0 8px,transparent 8px 16px),radial-gradient(circle at 50% 38%,rgba(217,184,120,.18),transparent 60%),linear-gradient(160deg,#1a2236,#11182a)}
+.face-back .glyph{font-family:var(--serif);font-size:46px;color:var(--gold);margin-bottom:14px;animation:glyphPulse 3.5s ease-in-out infinite}
+@keyframes glyphPulse{0%,100%{opacity:.6;text-shadow:0 0 0 rgba(217,184,120,0)}50%{opacity:1;text-shadow:0 0 18px rgba(217,184,120,.7)}}
+.face-back .tap{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-soft)}
+.face-front{transform:rotateY(180deg);flex-direction:column;gap:14px;background:linear-gradient(165deg,rgba(255,255,255,.06),rgba(255,255,255,.015));backdrop-filter:blur(8px);justify-content:flex-start;padding-top:38px;overflow:hidden;position:relative}
+.face-front::after{content:"";position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.13),transparent);transform:skewX(-18deg)}
+.card.flipped .face-front::after{animation:shimmer 1.4s ease-out .5s}
+@keyframes shimmer{0%{left:-60%}100%{left:120%}}
+.face-front .inner-scroll{overflow-y:auto;display:flex;flex-direction:column;gap:14px;align-items:center;width:100%;height:100%}
+.face-front .deck-tag{font-size:11px;letter-spacing:.26em;text-transform:uppercase}
+.face-front .msg{font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.34}
+.face-front .expl{font-size:14px;color:var(--ink-soft);line-height:1.6}
+.face-front .doing{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--gold);line-height:1.5;border-top:1px solid var(--line-soft);padding-top:13px;margin-top:4px}
+
+.note-box{background:linear-gradient(180deg,rgba(232,200,127,.1),rgba(232,200,127,.02));border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:30px}
+.note-box p{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold);line-height:1.5}
+.seeds{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:30px}
+@media(max-width:480px){.seeds{grid-template-columns:1fr}}
+.seed-btn{font-family:var(--sans);font-size:14.5px;color:var(--ink-soft);background:rgba(255,255,255,.03);border:1px solid var(--line-soft);border-radius:14px;padding:15px 16px;cursor:pointer;text-align:left;transition:all .35s;display:flex;align-items:center;gap:10px}
+.seed-btn .ic{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
+.seed-btn:hover{color:var(--ink);border-color:var(--line);transform:translateX(3px)}
+.seed-btn.active{border-color:var(--gold);background:rgba(217,184,120,.1);color:var(--ink)}
+.affirm-stage{text-align:center;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
+.affirm{font-family:var(--serif);font-size:27px;line-height:1.45;max-width:560px;transition:opacity .4s}
+.custom-row{display:flex;gap:10px;margin-top:30px;flex-wrap:wrap;justify-content:center}
+.custom-row input{flex:1;min-width:220px;font-family:var(--sans);font-size:15px;color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--line-soft);border-radius:14px;padding:14px 16px;outline:none;transition:border-color .3s}
+.custom-row input::placeholder{color:var(--ink-faint)}
+.custom-row input:focus{border-color:var(--gold-soft)}
+
+.tool-card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));border:1px solid var(--line-soft);border-radius:20px;padding:26px 24px;margin-bottom:18px;transition:border-color .3s}
+.tool-card.open{border-color:var(--line)}
+.tool-head{display:flex;align-items:center;gap:14px;cursor:pointer}
+.tool-head .num{font-family:var(--serif);font-size:22px;color:var(--gold);width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.tool-head .tt{font-family:var(--serif);font-size:22px;color:var(--ink);flex:1;line-height:1.2}
+.tool-head .chev{color:var(--gold-soft);transition:transform .35s;font-size:18px}
+.tool-card.open .chev{transform:rotate(90deg)}
+.tool-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.2,.7,.3,1)}
+.tool-body-inner{padding-top:18px}
+.tool-body p{color:var(--ink-soft);font-size:15px;margin-bottom:14px}
+.tool-body .step{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line-soft)}
+.tool-body .step:last-child{border-bottom:none}
+.tool-body .step .s-dot{color:var(--gold);font-size:13px;margin-top:5px;flex:none}
+.tool-body .step .s-txt{font-size:15.5px;color:var(--ink)}
+.tool-body .reflect{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold);line-height:1.5;border-left:2px solid var(--gold);padding-left:18px;margin:16px 0 4px}
+
+.breath-tool{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));border:1px solid var(--line-soft);border-radius:22px;padding:38px 28px;text-align:center;margin-bottom:24px}
+.bt-orb{width:160px;height:160px;margin:6px auto 22px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;transition:transform 4s ease-in-out}
+.bt-orb::before{content:"";position:absolute;inset:18px;border-radius:50%;background:radial-gradient(circle,rgba(217,184,120,.45),transparent 70%)}
+.bt-phase{font-family:var(--serif);font-size:24px;color:var(--ink);z-index:1}
+.bt-orb.inhale{transform:scale(1.28)}
+.bt-orb.exhale{transform:scale(.78)}
+.bt-count{font-size:14px;color:var(--ink-faint);letter-spacing:.1em;margin-bottom:20px;min-height:18px}
+
+.daily{background:linear-gradient(160deg,rgba(217,184,120,.12),rgba(217,184,120,.02));border:1px solid var(--line);border-radius:22px;padding:36px 28px;text-align:center}
+.daily .label{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:18px}
+.daily .text{font-family:var(--serif);font-size:25px;line-height:1.5;color:var(--ink);min-height:80px;display:flex;align-items:center;justify-content:center;transition:opacity .4s}
+
+.essay{max-width:660px;margin:0 auto}
+.essay .lead{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.55;text-align:center;margin-bottom:36px}
+.essay h3{font-family:var(--serif);font-weight:500;font-size:24px;color:var(--gold);margin:36px 0 12px}
+.essay p{color:var(--ink-soft);font-size:16px;margin-bottom:16px}
+.essay p strong{color:var(--ink);font-weight:400}
+.pull{border-left:2px solid var(--gold);padding:6px 0 6px 22px;margin:26px 0;font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.5}
+.mantra-list{list-style:none;margin:18px 0}
+.mantra-list li{font-family:var(--serif);font-size:19px;padding:13px 0;border-bottom:1px solid var(--line-soft);position:relative;padding-left:26px}
+.mantra-list li::before{content:"✦";position:absolute;left:0;color:var(--gold);font-size:13px;top:16px}
+
+footer{text-align:center;margin-top:58px;padding-top:28px;border-top:1px solid var(--line-soft);color:var(--ink-faint);font-size:13px}
+footer .glyph{color:var(--gold);font-size:20px;font-family:var(--serif);display:block;margin-bottom:10px}
+  nav,.nav,.bottom-nav{display:none!important;} body{padding-bottom:20px!important;}
+</style>
+</head>
+<body>
+<script>window.__WORLD_PREFIX__='contact';</script>
+<script src="js/bridge.js"></script>
+
+<div class="stars" id="stars"></div>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">A place to attune</div>
+    <h1>My <em>Contact space</em></h1>
+    <p class="sub">Breathe, ask, draw, practise — and experience it for real</p>
+    <div class="divider"><span id="secretStar" style="cursor:pointer;transition:transform .3s" title="…">✦</span></div>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" data-tab="afstemmen">Attune</button>
+    <button class="nav-btn" data-tab="kaart">Draw a card</button>
+    <button class="nav-btn" data-tab="manifest">Manifest</button>
+    <button class="nav-btn" data-tab="respect">Loving respect</button>
+    <button class="nav-btn" data-tab="tools">Exercises</button>
+    <button class="nav-btn" data-tab="ego">On longing</button>
+  </nav>
+
+  <section class="panel show" id="afstemmen">
+    <h2 class="section-title">Just land</h2>
+    <p class="section-note">No silence required. Follow the words at your own pace, and let the breath circle give you rhythm.</p>
+    <div class="ground-card">
+      <div class="breath"><i>breathe</i></div>
+      <p class="ground-text" id="groundText">Ready to begin?</p>
+      <div style="margin-top:26px"><button class="btn" id="groundBtn" onclick="nextGround()">Begin attuning</button></div>
+    </div>
+  </section>
+
+  <section class="panel" id="kaart">
+    <h2 class="section-title">Draw a card</h2>
+    <p class="section-note">Choose a deck, breathe in, and tap the card. Beneath each message you'll find a short note and something to do.</p>
+    <div class="deck-grid" id="deckGrid"></div>
+    <div class="stage">
+      <div class="card" id="card" onclick="drawCard()">
+        <div class="card-inner">
+          <div class="face face-back"><div><div class="glyph">✦</div><div class="tap">Tap to draw</div></div></div>
+          <div class="face face-front">
+            <div class="inner-scroll">
+              <span class="deck-tag" id="deckTag"></span>
+              <span class="msg" id="cardMsg"></span>
+              <span class="expl" id="cardExpl"></span>
+              <span class="doing" id="cardDoing"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn ghost" onclick="drawCard()">Draw again</button>
+    </div>
+  </section>
+
+  <section class="panel" id="manifest">
+    <h2 class="section-title">Manifest</h2>
+    <p class="section-note">What do you want to attune to today?</p>
+    <div class="note-box"><p>Everything you long for may be here — money, abundance, space, rest. Longing isn\'t an ego you must switch off. It\'s your life wanting to be nourished.</p></div>
+    <div class="seeds">
+      <button class="seed-btn" onclick="seed('geld',this)"><span class="ic"></span>Money &amp; abundance</button>
+      <button class="seed-btn" onclick="seed('rust',this)"><span class="ic"></span>Rest &amp; being carried</button>
+      <button class="seed-btn" onclick="seed('liefde',this)"><span class="ic"></span>Love &amp; connection</button>
+      <button class="seed-btn" onclick="seed('gezondheid',this)"><span class="ic"></span>Health &amp; energy</button>
+      <button class="seed-btn" onclick="seed('respect',this)"><span class="ic"></span>Respect &amp; appreciation</button>
+      <button class="seed-btn" onclick="seed('leren',this)"><span class="ic"></span>Learning &amp; growing</button>
+    </div>
+    <div class="affirm-stage">
+      <p class="affirm" id="affirm">Pick a theme to let an intention appear…</p>
+      <button class="btn ghost" id="affirmShuffle" style="display:none" onclick="shuffleAffirm()">Other words</button>
+    </div>
+    <div class="custom-row">
+      <input type="text" id="customInput" placeholder="…or type your own longing here" />
+      <button class="btn" onclick="customAffirm()">Create intention</button>
+    </div>
+  </section>
+
+  <section class="panel" id="respect">
+    <h2 class="section-title">Loving respect</h2>
+    <p class="section-note">For yourself <em>and</em> the other — without erasing yourself or pleasing everyone. Tap an exercise open and follow along.</p>
+    <div id="respectTools"></div>
+  </section>
+
+  <section class="panel" id="tools">
+    <h2 class="section-title">Exercises to experience</h2>
+    <p class="section-note">Not to read through, but to do. Take a moment.</p>
+    <div class="breath-tool">
+      <div style="font-family:var(--serif);font-size:21px;margin-bottom:18px;color:var(--ink)">Guided breathing</div>
+      <div class="bt-orb" id="btOrb"><span class="bt-phase" id="btPhase">ready?</span></div>
+      <div class="bt-count" id="btCount"></div>
+      <button class="btn" id="btBtn" onclick="toggleBreath()">Start breathing</button>
+      <p style="font-size:13px;color:var(--ink-faint);margin-top:16px">Breathe in as the circle grows, breathe out as it shrinks. Four counts each.</p>
+    </div>
+    <div class="daily">
+      <div class="label">Today's intention</div>
+      <div class="text" id="dailyText">Tap to receive your intention</div>
+      <div style="margin-top:22px"><button class="btn ghost" onclick="newDaily()">Give me an intention</button></div>
+    </div>
+
+    <div class="daily" style="margin-top:24px;background:linear-gradient(160deg,rgba(216,176,106,.13),rgba(216,176,106,.02))">
+      <div class="label">Today's mini challenge</div>
+      <div class="text" id="challengeText" style="font-size:22px">Tap for a small, concrete challenge</div>
+      <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn" onclick="newChallenge()">Give me a challenge</button>
+        <button class="btn ghost" id="challengeDone" style="display:none" onclick="markDone()">Done ✓</button>
+      </div>
+      <p id="challengeCheer" style="font-family:var(--serif);font-style:italic;font-size:17px;color:var(--gold);margin-top:18px;min-height:20px"></p>
+    </div>
+  </section>
+
+  <section class="panel" id="ego">
+    <h2 class="section-title">On longing, ego, respect and learning</h2>
+    <div class="essay">
+      <p class="lead">Longing isn't the ego you must overcome. It's often your soul telling you where life wants to go.</p>
+      <h3>The misunderstanding about the ego</h3>
+      <p>There exists an idea — popular in some spiritual circles — that everything you want for yourself is "ego", and that you are only truly spiritual once you have no longings left. Wanting money? Ego. Wanting recognition? Ego. And so every longing suddenly feels like a shortcoming.</p>
+      <p>But that's a narrowing. In almost no wisdom tradition are you asked to <strong>erase yourself</strong>. What they describe is subtler: not clinging, not hanging your whole identity on what you own. That\'s something very different from being forbidden to want anything.</p>
+      <div class="pull">The problem is never the longing itself. It\'s only the fear beneath it — and you don\'t solve that by denying the longing.</div>
+      <h3>Money is simply energy</h3>
+      <p>Money is exchanged trust, a way that flow becomes visible. Asking for it is as legitimate as asking for health or love. <strong>Having enough</strong> gives calm, room to give, and freedom to care for others without exhausting yourself.</p>
+      <h3>Respect and recognition may be there</h3>
+      <p>Wanting to be seen and appreciated isn\'t vanity — it\'s a deeply human need. It only becomes shaky when you place your <strong>self-worth entirely</strong> in someone else\'s hands. The healthy version: I may long for respect <em>and</em> I know my worth doesn\'t disappear if someone doesn\'t give it to me for a moment.</p>
+      <h3>Loving respect for yourself</h3>
+      <p>Respecting yourself also means taking your boundaries seriously. Constantly pleasing others and erasing yourself feels like love, but exhausts you and teaches people that your needs don\'t count. <strong>Setting a boundary isn\'t rejection</strong>  — it\'s a form of honesty that actually makes real connection possible.</p>
+      <h3>Learning as a form of reverence</h3>
+      <p>The wish to grow is your life force itself. It\'s your way of showing reverence for the gift that your life is: doing something with it, going deeper, becoming more.</p>
+      <div class="pull">You don\'t have to make yourself small to come close to the sacred. You may long greatly <em>and</em> stay soft.</div>
+      <h3>To carry with you</h3>
+      <ul class="mantra-list">
+        <li>I may long without judging myself.</li>
+        <li>Wanting enough is taking care of myself, not selfishness.</li>
+        <li>Money is energy, and it may flow to me.</li>
+        <li>I may ask for respect, <em>and</em> I carry my worth within me.</li>
+        <li>My boundaries protect my love, they don\'t block it.</li>
+        <li>I don\'t have to please everyone to be worthwhile.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer><span class="glyph">✦</span>Your space. Open it whenever you want to attune.</footer>
+</div>
+
+<script>
+(function(){const s=document.getElementById('stars');let h='';for(let i=0;i<70;i++){h+='<span style="left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-delay:'+(Math.random()*4).toFixed(1)+'s"></span>';}s.innerHTML=h;})();
+// floating golden motes
+(function(){const m=document.createElement('div');m.className='motes';document.body.appendChild(m);let h='';for(let i=0;i<22;i++){const sz=(2+Math.random()*4).toFixed(1),dur=(14+Math.random()*16).toFixed(1),delay=(Math.random()*18).toFixed(1),left=(Math.random()*100).toFixed(1),drift=((Math.random()*120-60)).toFixed(0)+'px';h+='<div class="mote" style="left:'+left+'%;width:'+sz+'px;height:'+sz+'px;--drift:'+drift+';animation-duration:'+dur+'s;animation-delay:'+delay+'s"></div>';}m.innerHTML=h;})();
+
+const navBtns=document.querySelectorAll('.nav-btn'),panels=document.querySelectorAll('.panel');
+navBtns.forEach(b=>b.addEventListener('click',()=>{navBtns.forEach(x=>x.classList.remove('active'));b.classList.add('active');panels.forEach(p=>p.classList.remove('show'));document.getElementById(b.dataset.tab).classList.add('show');window.scrollTo({top:0,behavior:'smooth'});}));
+
+const grounding=['Breathe calmly in through your nose… and release.','Feel your feet on the ground, your body carried.','Place a hand on your heart. You are here, that is enough.','Invite your guide, angel or a warm presence to come close.','Imagine a soft, golden light all around you.','You are open and connected. Draw or manifest when you\'re ready.'];
+let gi=-1;
+function nextGround(){gi++;const t=document.getElementById('groundText'),b=document.getElementById('groundBtn');if(gi>=grounding.length){gi=-1;t.textContent='Ready to begin?';b.textContent='Begin attuning';return;}t.style.transition='opacity .25s';t.style.opacity=0;setTimeout(()=>{t.textContent=grounding[gi];t.style.opacity=1;},220);b.textContent=(gi===grounding.length-1)?'Again':'Next breath →';}
+
+const decks={
+  engelen:{c:'var(--engel)',name:'Angels & guides',dd:'Gentle support',cards:[
+    {m:'You are carried.',e:'Even if you don\'t feel it, you are not alone. There\'s more support around you than is visible.',d:'Ask silently: "Let me feel today that I am carried." And keep softly noticing.'},
+    {m:'Help is on the way.',e:'What you\'ve asked has been set in motion — even if you don\'t see the result yet.',d:'Consciously let go of control once today, and trust it will be okay.'},
+    {m:'Ask, and it will be given.',e:'You don\'t have to do it alone. Asking for help isn\'t weakness, it\'s openness.',d:'Speak one concrete question aloud today to your guide or angel.'},
+    {m:'Something loving watches over you.',e:'A warm presence is closer than you think, especially in your heavier moments.',d:'Place a hand on your heart for a moment and say: "I feel that I\'m not alone."'},
+    {m:'Let go of what is heavy.',e:'You don\'t have to keep carrying everything. Some burdens may leave your hands.',d:'Breathe out and imagine handing something heavy to something larger than you.'},
+    {m:'You are where you\'re meant to be.',e:'This phase too, with all its uncertainty, belongs to your path.',d:'Name one thing you\'re grateful for, exactly as your life is right now.'},
+    {m:'A sign is coming to you.',e:'In the coming days watch for repetitions, coincidences, a song, a word.',d:'Ask for a specific sign, then let it go.'},
+    {m:'Your prayers have been heard.',e:'Nothing you\'ve asked from the heart is lost.',d:'Write or say: "Thank you for listening" — before you see the answer.'}]},
+  orakel:{c:'var(--orakel)',name:'Oracle',dd:'Intuition',cards:[
+    {m:'A new door opens.',e:'Something new is presenting itself. You don\'t have to understand it fully yet.',d:'Ask yourself: where am I lately feeling a soft "yes" come up?'},
+    {m:'What ends makes room.',e:'A closure isn\'t loss but a clearing for what fits better.',d:'Name something that may end, and thank it for what it brought you.'},
+    {m:'Follow what feels light.',e:'Your intuition speaks through lightness, not through force or fear.',d:'Think of a choice. Which option makes your body lighter? That\'s your clue.'},
+    {m:'You already know the answer.',e:'Deep down the direction is already there. You only have to let it in.',d:'Pose your question, place a hand on your belly, and listen for the first quiet response.'},
+    {m:'Patience — it\'s still ripening.',e:'Not everything is ready to be harvested. Forcing has the opposite effect.',d:'Give yourself permission to let something be for a moment without fixing it.'},
+    {m:'Look at what returns.',e:'A recurring feeling, theme or person wants to make something clear to you.',d:'Ask: what is this pattern trying to teach me?'},
+    {m:'Your intuition points, not your fear.',e:'Learn to feel the difference: fear squeezes, intuition is calm and clear.',d:'When in doubt: breathe calmly three times, and ask again from calm.'},
+    {m:'Let it flow.',e:'Holding on slows; letting go lets life move.',d:'Literally open your hands, palms up, and breathe out.'}]},
+  overvloed:{c:'var(--overvloed)',name:'Abundance',dd:'Without guilt',cards:[
+    {m:'You may receive.',e:'Abundance isn\'t a reward for perfection. It\'s your right, simply because you exist.',d:'Say aloud: "I may receive" and notice what resistance comes — and let it be soft.'},
+    {m:'Money is energy.',e:'It may flow, like breath or water. Asking for it isn\'t greedy.',d:'Visualise money coming to you with ease, without earning it through exhaustion.'},
+    {m:'Longing isn\'t guilt.',e:'Wanting what you want is your life growing, not your ego conquering.',d:'Name one longing you usually push away, and give it the right to exist today.'},
+    {m:'There is enough, and you belong.',e:'Abundance isn\'t a pie you take from others. There\'s room for everyone, including you.',d:'Replace one "I\'m not allowed" with "I\'m allowed too".'},
+    {m:'Open your hands.',e:'With clenched fists you can receive nothing. Receiving asks openness.',d:'Sit with open hands on your lap and breathe calmly — a posture of receiving.'},
+    {m:'You deserve space and freedom.',e:'Comfort and ease aren\'t shallow; they give you the calm to live and give.',d:'Today allow yourself one small moment of comfort, consciously and without guilt.'},
+    {m:'What you give returns.',e:'Giving from abundance (not from exhaustion) sets a stream in motion.',d:'Today give something small with an open heart — and receive something too.'},
+    {m:'The flow has already begun.',e:'You don\'t have to force it. Trust that it\'s already in motion.',d:'Thank in advance for what\'s on the way, as if it\'s already here.'}]},
+  chakra:{c:'var(--chakra)',name:'Chakras',dd:'Energy',cards:[
+    {m:'Root chakra — safety.',e:'Your foundation asks attention: do you feel safe and grounded in your life?',d:'Stand with bare feet on the ground and feel your connection to the earth.'},
+    {m:'Sacral — creativity & pleasure.',e:'Your zest for life and enjoyment want space. Are you allowed to enjoy?',d:'Today do something purely because it\'s fun, with no purpose.'},
+    {m:'Solar plexus — personal power.',e:'Your ability to say "I want" and "I can" asks strengthening.',d:'Stand straight, breathe into your belly, and say: "I may take up my space."'},
+    {m:'Heart — love & connection.',e:'Love for yourself and others wants to flow, in balance.',d:'Breathe into your heart and send warmth first to yourself, then to someone else.'},
+    {m:'Throat — speaking your truth.',e:'There is something that wants to be said or expressed.',d:'Today speak or write one thing you\'ve been holding in.'},
+    {m:'Third eye — insight.',e:'Your intuition and inner knowing ask trust.',d:'Close your eyes for a moment and ask: what do I already know, but ignore?'},
+    {m:'Crown — connection with the greater.',e:'Your bond with something larger than yourself wants to deepen.',d:'Imagine a light entering through your crown and filling you.'}]},
+  element:{c:'var(--element)',name:'Elements',dd:'Nature',cards:[
+    {m:'Earth — grounding.',e:'Time to slow down, ground, and tend to your foundation.',d:'Go outside or touch a plant or stone; feel something tangible.'},
+    {m:'Water — feeling & flow.',e:'Your emotions want to be acknowledged and felt through, not pushed away.',d:'Let one feeling be fully there today, without judging it.'},
+    {m:'Fire — passion & action.',e:'There\'s energy and willpower that wants to come out.',d:'Take one small, courageous step toward something you want.'},
+    {m:'Air — clarity & thoughts.',e:'It\'s time to clear your head and gain perspective.',d:'Breathe deeply and briefly write out your thoughts to make room.'},
+    {m:'Ether — connection & rest.',e:'The silent, spacious element invites you to surrender.',d:'Sit silently for a minute and let everything be as it is.'}]},
+  kind:{c:'var(--kind)',name:'Inner child',dd:'Self-love',cards:[
+    {m:'You are worthy, simply as you are.',e:'You don\'t have to perform to earn love. That was true then, and is true now.',d:'Say to yourself what the child in you would have wanted to hear back then.'},
+    {m:'You may make mistakes.',e:'The younger you was afraid to do it wrong. You\'re now safe to learn.',d:'Forgive yourself one thing today, aloud or in silence.'},
+    {m:'Your feelings matter.',e:'What you feel is valid, even if others once dismissed it.',d:'Ask the child in you: what do you need now? And give it, even if small.'},
+    {m:'You may play and be light.',e:'Not everything has to be heavy or useful. Joy is sacred.',d:'Today do something playful or silly, purely for the joy.'},
+    {m:'You don\'t have to please to be loved.',e:'You may have learned that love had to be earned. That wasn\'t true.',d:'Say "no" or "I don\'t want this" once, without apologising.'},
+    {m:'You are safe now.',e:'The fear of long ago belongs to back then. Now you may allow calm and safety.',d:'Place a hand on your heart and say: "I am here for you now."'}]},
+  maan:{c:'var(--maan)',name:'Moon phases',dd:'Cycle',cards:[
+    {m:'New moon — a new beginning.',e:'The silent, dark moon is the moment to sow. What do you want to grow?',d:'Write one intention, as concrete as possible, and place it somewhere you\'ll see it.'},
+    {m:'Waxing moon — building.',e:'Energy is swelling. This is the time for action and perseverance.',d:'Today take one step toward something you started at the new moon.'},
+    {m:'Full moon — fullness & release.',e:'Everything stands in full light. What has ripened, and what may now go?',d:'Name something to be grateful for <em>and</em> something you release under this full light.'},
+    {m:'Waning moon — clearing.',e:'The moon withdraws. Time to let go of what no longer serves.',d:'Today clear one thing — physical or in your head — that takes up room.'},
+    {m:'Dark moon — rest & turning inward.',e:'Before the new begins, you may be empty and quiet. Doing isn\'t required for now.',d:'Today grant yourself conscious do-nothing time, without guilt.'}]},
+  kracht:{c:'var(--kracht)',name:'Inner power',dd:'Self-worth',cards:[
+    {m:'Your no is as valuable as your yes.',e:'A boundary isn\'t rejection but honesty. It makes your yes more sincere.',d:'Today practice one small, friendly "no" without long explanation.'},
+    {m:'Your worth doesn\'t depend on approval.',e:'Even when someone doesn\'t see it for a moment, you\'re not worth less.',d:'Name one quality of yourself that you value, regardless of what others think.'},
+    {m:'You may take up space.',e:'You don\'t have to make yourself small to put others at ease.',d:'Today consciously stand or sit straight, and breathe into your full length.'},
+    {m:'You don\'t have to keep everyone satisfied.',e:'It\'s impossible and it exhausts you. Some people may be dissatisfied.',d:'Consciously leave something unresolved once — someone\'s displeasure that isn\'t yours to carry.'},
+    {m:'Caring for yourself isn\'t selfish.',e:'An empty jug pours nothing. Filling yourself is what enables you to give.',d:'Today do something purely for your own wellbeing, without justifying it.'},
+    {m:'You are already enough.',e:'Not when you achieve more, not when you\'re more perfect. Now, exactly as you are.',d:'Say three times: "I am enough" — and notice what responds inside.'}]}
+};
+let curDeck='engelen';
+(function(){const g=document.getElementById('deckGrid');let h='';const order=['engelen','orakel','overvloed','chakra','element','kind','maan','kracht'];order.forEach((k,i)=>{const d=decks[k];h+='<button class="deck-btn'+(i===0?' active':'')+'" data-deck="'+k+'" onclick="pickDeck(\''+k+'\',this)"><div class="dot" style="background:'+d.c+'"></div><span class="dn">'+d.name+'</span><span class="dd">'+d.dd+'</span></button>';});g.innerHTML=h;})();
+function pickDeck(name,el){curDeck=name;document.querySelectorAll('.deck-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('card').classList.remove('flipped');}
+function drawCard(){const c=document.getElementById('card'),d=decks[curDeck],p=d.cards[Math.floor(Math.random()*d.cards.length)];c.classList.remove('drawing');void c.offsetWidth;c.classList.add('drawing');sparkleBurst(c);if(c.classList.contains('flipped')){c.classList.remove('flipped');setTimeout(()=>setFront(d,p),450);setTimeout(()=>c.classList.add('flipped'),480);}else{setFront(d,p);setTimeout(()=>c.classList.add('flipped'),60);}}
+function sparkleBurst(el){const r=el.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;for(let i=0;i<14;i++){const s=document.createElement('div');s.className='spark';const ang=Math.random()*Math.PI*2,dist=60+Math.random()*90;s.style.left=cx+'px';s.style.top=cy+'px';s.style.setProperty('--bx',Math.cos(ang)*dist+'px');s.style.setProperty('--by',Math.sin(ang)*dist+'px');s.style.animation='burst '+(0.6+Math.random()*0.5)+'s ease-out forwards';document.body.appendChild(s);setTimeout(()=>s.remove(),1200);}}
+function setFront(d,p){const t=document.getElementById('deckTag');t.textContent=d.name;t.style.color=d.c;document.getElementById('cardMsg').textContent=p.m;document.getElementById('cardExpl').textContent=p.e;document.getElementById('cardDoing').textContent='✦ '+p.d;}
+
+const affirms={geld:['I am open to receive money and abundance, and I may long for that without guilt.','Money flows to me with ease, and I let it in.','I am worthy of living spaciously and freely.'],rust:['I am calm, safe and carried. I don\'t have to force anything.','I may pause and catch my breath. There is enough time.','Peace fills me from within.'],liefde:['Love flows to me and through me. I am worth it.','I am surrounded by warm, sincere connections.','I open my heart and let love in.'],gezondheid:['My body heals and my energy grows with each day.','I listen to my body and it carries me with strength.','Vitality flows through me.'],respect:['I am seen and appreciated, and I carry my worth within myself.','I may ask for and receive respect, with my head held high.','My boundaries are allowed to exist, and they make my yes more sincere.'],leren:['I grow every day, and my curiosity is a gift.','I may learn, make mistakes and keep going deeper.','My desire to grow is reverence for my life.']};
+let curTheme=null,curIdx=0;
+function seed(t,el){curTheme=t;curIdx=0;document.querySelectorAll('.seed-btn').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');showAffirm(affirms[t][0]);document.getElementById('affirmShuffle').style.display=affirms[t].length>1?'inline-block':'none';}
+function shuffleAffirm(){if(!curTheme)return;const a=affirms[curTheme];curIdx=(curIdx+1)%a.length;showAffirm(a[curIdx]);}
+function customAffirm(){const v=document.getElementById('customInput').value.trim();if(!v)return;curTheme=null;document.querySelectorAll('.seed-btn').forEach(b=>b.classList.remove('active'));document.getElementById('affirmShuffle').style.display='none';showAffirm('I am open to receive '+v+', and I may long for that without guilt.');}
+function showAffirm(t){const a=document.getElementById('affirm');a.style.opacity=0;setTimeout(()=>{a.textContent=t;a.style.opacity=1;},250);}
+
+const respectTools=[
+  {t:'Stop people-pleasing',p:'This affects you most, so we start here. Pleasing feels like love, but often comes from fear of rejection. Real connection can handle your honesty.',steps:['At a choice, ask yourself: am I doing this for myself, or to keep someone satisfied?','If it\'s pleasing: pause. You don\'t have to answer right away.','Say: "I\'ll let you know later" and give yourself time to think.','Then choose from what fits, not from fear of their reaction.','Notice afterwards: the world didn\'t collapse. You may do this more often.'],r:'What am I afraid would happen if I stopped pleasing?'},
+  {t:'No longer erasing yourself',p:'Erasing yourself starts small: your need always comes last. This exercise puts you back on the list.',steps:['Write or name three things that <em>you</em> need — separate from what others want.','Choose one of them today, however small, and give it space.','Notice the urge to postpone it "until the rest is done". Do it first anyway.','Say to yourself: "My need counts just as much as anyone else\'s."'],r:'If I put myself at the front for a moment, what would I choose?'},
+  {t:'Feeling a boundary in your body',p:'Your body often knows before your head where your boundary lies. This exercise teaches you to recognise that signal.',steps:['Think of a situation where you said "yes" but actually felt "no".','Notice where you felt it in your body — a cramp, pressure on your chest, a sigh.','Breathe into that spot and say: "Thank you for warning me."','Practise taking that signal seriously from now on, before you answer.'],r:'What would happen if I could trust this body signal?'},
+  {t:'Saying no without guilt',p:'A no to someone else is often a yes to yourself. You don\'t have to extensively defend a boundary.',steps:['Think of a request you actually want to say no to.','Practise a short sentence: "That doesn\'t work for me" or "That\'s not my choice."','Notice: you don\'t have to give a long explanation or excuse.','Breathe out after the no. The other may be disappointed — that\'s not your job to fix.'],r:'For whom do I care so well that I forget myself?'},
+  {t:'Unhooking your self-worth from what others think',p:'If your worth depends on approval, it sways with every glance. This exercise anchors it back inside you.',steps:['Think of something you\'re proud of that no one else has seen or praised.','Feel that it counts even <em>without</em> applause. It was already there.','Say: "My worth doesn\'t change if someone doesn\'t see it for a moment."','Imagine your worth is a light burning from within, not switched on by others.'],r:'Who would I be if I no longer needed anyone\'s approval?'},
+  {t:'Softening the inner critic',p:'The voice that tears you down usually isn\'t the truth, but old fear. You may speak more lovingly to yourself.',steps:['Catch your critic at a harsh sentence ("you\'re doing it wrong again").','Ask: would I say this to someone I love?','Reformulate it gently: "I\'m doing my best, and that\'s enough."','Place a hand on your heart while saying the gentle version.'],r:'How would a loving friend speak to me now?'},
+  {t:'Respect for the other <em>and</em> yourself',p:'Respect isn\'t a choice between yourself <em>or</em> the other. It may exist both at once.',steps:['Think of a tension with someone.','First acknowledge the other: "I understand you need this."','Then acknowledge yourself: "And I need this."','Find the sentence that honours both: "I want to help you, <em>and</em> I have to rest first."'],r:'Where can I honour both, without erasing myself?'}
+];
+(function(){const w=document.getElementById('respectTools');let h='';respectTools.forEach((x,i)=>{let steps='';x.steps.forEach(s=>{steps+='<div class="step"><span class="s-dot">✦</span><span class="s-txt">'+s+'</span></div>';});h+='<div class="tool-card" id="rt'+i+'"><div class="tool-head" onclick="toggleTool('+i+')"><div class="num">'+(i+1)+'</div><div class="tt">'+x.t+'</div><div class="chev">›</div></div><div class="tool-body"><div class="tool-body-inner"><p>'+x.p+'</p>'+steps+'<div class="reflect">'+x.r+'</div></div></div></div>';});w.innerHTML=h;})();
+function toggleTool(i){const c=document.getElementById('rt'+i),b=c.querySelector('.tool-body');if(c.classList.contains('open')){c.classList.remove('open');b.style.maxHeight=0;}else{c.classList.add('open');b.style.maxHeight=b.scrollHeight+'px';}}
+
+let breathing=false,btTimer=null;
+function toggleBreath(){const o=document.getElementById('btOrb'),ph=document.getElementById('btPhase'),cnt=document.getElementById('btCount'),b=document.getElementById('btBtn');if(breathing){breathing=false;clearInterval(btTimer);o.className='bt-orb';ph.textContent='ready?';cnt.textContent='';b.textContent='Start breathing';return;}breathing=true;b.textContent='Stop';let phase=0;const seq=[['inhale','Breathe in'],['hold','Hold'],['exhale','Breathe out'],['hold','Rest']];function run(){const cur=seq[phase%4];o.className='bt-orb '+(cur[0]==='hold'?'':cur[0]);ph.textContent=cur[1];let n=4;cnt.textContent=n;const c=setInterval(()=>{n--;if(n<=0){clearInterval(c);}else cnt.textContent=n;},1000);phase++;}run();btTimer=setInterval(run,4000);}
+
+const dailies=['Today I may treat myself as gently as someone I love.','Today I may receive without proving myself.','Today my no may be as valid as my yes.','Today I trust that I am carried.','Today I don\'t have to please anyone to be worthwhile.','Today I let something heavy fall from my hands.','Today I may long for what I long for, without guilt.','Today I listen to what my body tells me.','Today, being enough is enough.','Today I may grow at my own pace.'];
+
+// secret star — a small blessing
+const blessings=['You weren\'t led to this place for nothing.','Something loving is smiling at you now.','What you\'re seeking is seeking you too.','You\'re more surrounded than you know.','Trust the soft voice. It\'s yours.','There\'s light reserved for you today.','You don\'t have to be perfect to be loved.'];
+(function(){const star=document.getElementById('secretStar');if(!star)return;star.addEventListener('click',()=>{star.style.transform='rotate(180deg) scale(1.6)';setTimeout(()=>star.style.transform='',600);
+  // shower of sparkles from the star
+  const r=star.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  for(let i=0;i<26;i++){const s=document.createElement('div');s.className='spark';const ang=Math.random()*Math.PI*2,dist=80+Math.random()*150;s.style.left=cx+'px';s.style.top=cy+'px';s.style.setProperty('--bx',Math.cos(ang)*dist+'px');s.style.setProperty('--by',Math.sin(ang)*dist+'px');s.style.animation='burst '+(0.8+Math.random()*0.7)+'s ease-out forwards';document.body.appendChild(s);setTimeout(()=>s.remove(),1600);}
+  // gentle floating message
+  const msg=document.createElement('div');msg.textContent=blessings[Math.floor(Math.random()*blessings.length)];
+  msg.style.cssText='position:fixed;left:50%;top:'+(cy+20)+'px;transform:translateX(-50%);font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold);text-align:center;max-width:80%;z-index:999;pointer-events:none;text-shadow:0 0 20px rgba(217,184,120,.5);opacity:0;transition:opacity .8s,top 3s ease-out';
+  document.body.appendChild(msg);requestAnimationFrame(()=>{msg.style.opacity='1';msg.style.top=(cy-30)+'px';});
+  setTimeout(()=>{msg.style.opacity='0';},2800);setTimeout(()=>msg.remove(),3800);
+});})();
+function newDaily(){const t=document.getElementById('dailyText');t.style.opacity=0;setTimeout(()=>{t.textContent=dailies[Math.floor(Math.random()*dailies.length)];t.style.transition='opacity .4s';t.style.opacity=1;},250);}
+
+const challenges=['Say "no" once today, without explanation or apology afterwards.','Today ask someone for help, even if it feels uncomfortable.','Don\'t answer a request right away — say "let me think about it".','Today do one thing purely for yourself, without justifying it.','Today voice an opinion, even if you know not everyone will agree.','Leave one chore that actually isn\'t your responsibility.','Today receive a compliment with just "thank you" — without waving it off.','When choosing today, choose what <em>you</em> want, not what the group expects.','Tell someone what you really need, instead of swallowing it.','Today allow yourself to do something imperfectly.','Take up your space somewhere: speak a little louder, sit a little more openly, don\'t wait till the last.','Today notice when you start pleasing — and pause once before you give in.'];
+let challengeActive=false;
+function newChallenge(){const t=document.getElementById('challengeText');t.style.opacity=0;setTimeout(()=>{t.textContent=challenges[Math.floor(Math.random()*challenges.length)];t.style.transition='opacity .4s';t.style.opacity=1;},250);document.getElementById('challengeDone').style.display='inline-block';document.getElementById('challengeCheer').textContent='';challengeActive=true;}
+function markDone(){if(!challengeActive)return;const cheers=['Beautiful. You took yourself seriously today.','That was brave. Feel for a moment how it is.','This is how you build loving respect — small and real.','Your boundary counted. That is allowed.','Proud of you. This is practice, and you did it.'];document.getElementById('challengeCheer').textContent='✦ '+cheers[Math.floor(Math.random()*cheers.length)];document.getElementById('challengeDone').style.display='none';challengeActive=false;}
+
+window.addEventListener('message',function(e){
+  if(e.data&&e.data.__maanlicht&&e.data.panel){
+    try{
+      document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+      var el=document.getElementById(e.data.panel); if(el) el.classList.add('show');
+    }catch(err){}
+  }
+});
+</script>
+</body>
+</html>
