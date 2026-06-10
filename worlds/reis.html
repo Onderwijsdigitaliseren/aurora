@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f0520">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>The Journey — 28 days & The Oracle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #0f0520;
+    --night: #1a0b2e;
+    --violet: #2d1b4e;
+    --plum: #4a2670;
+    --orchid: #7c3aed;
+    --rose: #c084fc;
+    --gold: #fbbf24;
+    --gold-soft: #fde68a;
+    --gold-deep: #d97706;
+    --cream: #fef3c7;
+    --green: #6ee7b7;
+    --mist: rgba(255,255,255,0.06);
+    --mist-strong: rgba(255,255,255,0.12);
+    --line: rgba(255,255,255,0.10);
+    --text: #f5e6ff;
+    --text-soft: #d4c5e8;
+    --text-dim: #9b89b8;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Outfit', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: var(--deep); color: var(--text);
+    font-family: var(--sans); font-weight: 300; line-height: 1.65;
+    overflow-x: hidden; min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(124,58,237,0.28) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(251,191,36,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 40%, rgba(192,132,252,0.08) 0%, transparent 70%),
+      linear-gradient(180deg, var(--deep) 0%, var(--night) 50%, var(--deep) 100%);
+    background-attachment: fixed;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star { position: absolute; background:#fff; border-radius:50%; animation: tw var(--dur,4s) ease-in-out infinite; opacity:0; }
+  @keyframes tw { 0%,100%{opacity:0;transform:scale(.6)} 50%{opacity:var(--max,.7);transform:scale(1)} }
+
+  .wrap { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+  header { text-align:center; padding: calc(32px + env(safe-area-inset-top)) 22px 12px; }
+  .crest { font-size:24px; color:var(--gold); letter-spacing:6px; margin-bottom:10px; text-shadow:0 0 18px rgba(251,191,36,.5); }
+  header h1 { font-family:var(--serif); font-weight:500; font-size:clamp(28px,7.5vw,42px); line-height:1.05; }
+  header h1 em { font-style:italic; color:var(--gold-soft); }
+  header p { color:var(--text-dim); font-size:14px; margin-top:9px; max-width:380px; margin-inline:auto; }
+
+  .panel { display:none; padding: 6px 18px 30px; animation: fade .5s ease; }
+  .panel.active { display:block; }
+  @keyframes fade { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  .btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-deep)); color:#2a1a05;
+    border:none; border-radius:100px; padding:13px 26px;
+    font-family:var(--sans); font-weight:600; font-size:15px; cursor:pointer;
+    transition:transform .15s, box-shadow .2s, opacity .2s; box-shadow:0 6px 20px rgba(251,191,36,.3);
+  }
+  .btn:active { transform:scale(.97); }
+  .btn:disabled { opacity:.4; cursor:not-allowed; box-shadow:none; }
+  .btn.ghost { background:transparent; color:var(--text-soft); border:1px solid var(--line); box-shadow:none; }
+  .btn.full { width:100%; }
+  .btn.sm { padding:9px 16px; font-size:13px; }
+
+  textarea, input[type=text] {
+    width:100%; background:rgba(0,0,0,.25); color:var(--text); border:1px solid var(--line);
+    border-radius:13px; padding:13px 15px; font-family:var(--sans); font-size:15px; font-weight:300; resize:vertical;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  textarea:focus, input[type=text]:focus { outline:none; border-color:var(--rose); box-shadow:0 0 0 3px rgba(192,132,252,.15); }
+  textarea { min-height:80px; line-height:1.5; }
+  ::placeholder { color:var(--text-dim); opacity:.7; }
+
+  .status { font-size:13px; margin-top:9px; min-height:18px; color:var(--green); }
+  .hint { font-size:12.5px; color:var(--text-dim); margin-top:8px; line-height:1.5; }
+  .lbl { font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim); margin-bottom:7px; display:block; }
+
+  /* ---- PATH: weeks overview ---- */
+  .progress-ring { text-align:center; margin: 6px 0 20px; }
+  .progress-ring .big { font-family:var(--serif); font-size:54px; font-weight:600; color:var(--gold-soft); line-height:1; }
+  .progress-ring .small { font-size:13px; color:var(--text-dim); letter-spacing:.5px; }
+  .track-bar { height:8px; background:rgba(0,0,0,.3); border-radius:100px; overflow:hidden; margin:14px auto 0; max-width:320px; }
+  .track-fill { height:100%; background:linear-gradient(90deg,var(--orchid),var(--gold)); border-radius:100px; transition:width .6s cubic-bezier(.2,.8,.2,1); }
+
+  .week-block { margin-bottom:22px; }
+  .week-head { display:flex; align-items:baseline; gap:10px; margin-bottom:12px; padding-left:2px; }
+  .week-head .wn { font-family:var(--serif); font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); }
+  .week-head .wt { font-family:var(--serif); font-size:22px; font-weight:500; }
+  .week-head .ws { font-size:12.5px; color:var(--text-dim); }
+
+  .day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+  .day-dot {
+    aspect-ratio:1; border-radius:14px; border:1px solid var(--line);
+    background:var(--mist); display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:400; cursor:pointer; position:relative;
+    color:var(--text-soft); transition:all .2s; font-family:var(--serif);
+  }
+  .day-dot.done { background:linear-gradient(160deg,rgba(251,191,36,.25),var(--mist)); border-color:rgba(251,191,36,.5); color:var(--gold-soft); }
+  .day-dot.today { border-color:var(--rose); box-shadow:0 0 0 3px rgba(192,132,252,.2); }
+  .day-dot.locked { opacity:.35; cursor:not-allowed; }
+  .day-dot.done::after { content:'✦'; position:absolute; top:2px; right:4px; font-size:9px; color:var(--gold); }
+  .day-dot .lock { font-size:11px; }
+
+  /* ---- Day view ---- */
+  .day-view { animation:fade .4s ease; }
+  .day-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .day-meta .wk { font-size:11.5px; letter-spacing:2px; text-transform:uppercase; }
+  .day-num { font-family:var(--serif); font-size:14px; color:var(--text-dim); letter-spacing:1px; }
+  .day-theme { font-family:var(--serif); font-size:30px; font-weight:500; line-height:1.15; margin-bottom:18px; }
+  .lesson { font-size:15.5px; color:var(--text-soft); line-height:1.7; margin-bottom:22px; }
+  .lesson p { margin-bottom:13px; }
+
+  .ex-card, .affirm-card, .reflect-card {
+    border-radius:20px; padding:20px; margin-bottom:16px; border:1px solid var(--line);
+    background:linear-gradient(160deg,var(--mist-strong),var(--mist)); backdrop-filter:blur(8px);
+  }
+  .ex-card .tag { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+  .ex-card h4 { font-family:var(--serif); font-size:21px; font-weight:500; margin-bottom:9px; }
+  .ex-card p { font-size:14.5px; color:var(--text-soft); line-height:1.65; }
+
+  .affirm-card { text-align:center; background:linear-gradient(160deg,rgba(124,58,237,.25),rgba(251,191,36,.07)); }
+  .affirm-card .tag { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--rose); margin-bottom:10px; }
+  .affirm-card .txt { font-family:var(--serif); font-style:italic; font-size:23px; line-height:1.35; color:var(--gold-soft); }
+
+  .reflect-card .tag { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:9px; }
+  .reflect-card .q { font-family:var(--serif); font-size:19px; margin-bottom:12px; line-height:1.3; }
+
+  .day-nav { display:flex; gap:10px; margin-top:8px; }
+  .day-nav .btn { flex:1; }
+
+  /* ---- ORACLE ---- */
+  .stage { display:flex; flex-direction:column; align-items:center; margin:8px 0 4px; }
+  .ocard {
+    width:230px; height:340px; cursor:pointer; perspective:1200px; margin-bottom:20px;
+  }
+  .ocard-inner { position:relative; width:100%; height:100%; transition:transform .8s cubic-bezier(.2,.8,.2,1); transform-style:preserve-3d; }
+  .ocard.flipped .ocard-inner { transform:rotateY(180deg); }
+  .face {
+    position:absolute; inset:0; backface-visibility:hidden; border-radius:22px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:26px; text-align:center;
+    border:1px solid var(--line); box-shadow:0 14px 40px rgba(0,0,0,.4);
+  }
+  .face-back {
+    background:linear-gradient(160deg,var(--plum),var(--violet));
+    background-image:radial-gradient(circle at 50% 30%, rgba(251,191,36,.15), transparent 60%);
+  }
+  .face-back .glyph { font-size:40px; color:var(--gold); text-shadow:0 0 22px rgba(251,191,36,.6); margin-bottom:14px; }
+  .face-back .tap { font-size:13px; color:var(--text-dim); letter-spacing:1px; }
+  .face-back .border-orn { position:absolute; inset:12px; border:1px solid rgba(251,191,36,.25); border-radius:16px; pointer-events:none; }
+  .face-front {
+    transform:rotateY(180deg);
+    background:linear-gradient(160deg,var(--night),var(--violet));
+    background-image:radial-gradient(circle at 50% 20%, rgba(192,132,252,.18), transparent 60%);
+  }
+  .face-front .oname { font-family:var(--serif); font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+  .face-front .omsg { font-family:var(--serif); font-size:21px; line-height:1.4; color:var(--text); }
+  .face-front .border-orn { position:absolute; inset:12px; border:1px solid rgba(192,132,252,.3); border-radius:16px; pointer-events:none; }
+
+  .insight {
+    background:linear-gradient(160deg,rgba(110,231,183,.12),var(--mist)); border:1px solid rgba(110,231,183,.3);
+    border-radius:18px; padding:18px; margin-top:8px; animation:fade .5s ease;
+  }
+  .insight .tag { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:8px; }
+  .insight p { font-size:15px; color:var(--text-soft); line-height:1.6; }
+  .insight .pat { font-family:var(--serif); font-style:italic; font-size:18px; color:var(--gold-soft); margin-top:6px; }
+
+  .odraws { margin-top:8px; }
+  .odraw { display:flex; gap:12px; align-items:baseline; padding:11px 0; border-bottom:1px solid var(--line); font-size:14px; }
+  .odraw .od { font-size:11.5px; color:var(--text-dim); letter-spacing:.5px; white-space:nowrap; }
+  .odraw .oc { color:var(--gold-soft); font-family:var(--serif); font-size:16px; }
+  .odraw .om { color:var(--text-dim); font-size:13px; }
+
+  /* Nav */
+  nav {
+    position:fixed; bottom:0; left:0; right:0; z-index:20; display:flex; justify-content:space-around;
+    background:rgba(15,5,32,.82); backdrop-filter:blur(18px); border-top:1px solid var(--line);
+    padding:9px 6px calc(9px + env(safe-area-inset-bottom));
+  }
+  .nav-btn {
+    flex:1; background:none; border:none; cursor:pointer; color:var(--text-dim);
+    font-family:var(--sans); font-size:10.5px; font-weight:400; display:flex; flex-direction:column;
+    align-items:center; gap:4px; padding:5px 2px; transition:color .2s; letter-spacing:.3px;
+  }
+  .nav-btn .ico { font-size:19px; transition:transform .2s; }
+  .nav-btn.active { color:var(--gold-soft); }
+  .nav-btn.active .ico { transform:translateY(-1px) scale(1.08); }
+
+  .toast {
+    position:fixed; left:50%; bottom:calc(110px + env(safe-area-inset-bottom));
+    transform:translateX(-50%) translateY(20px);
+    background:linear-gradient(135deg,var(--gold),var(--gold-deep)); color:#2a1a05;
+    padding:12px 22px; border-radius:100px; font-weight:600; font-size:14px;
+    box-shadow:0 10px 30px rgba(251,191,36,.4); opacity:0; pointer-events:none;
+    transition:all .35s cubic-bezier(.2,.8,.2,1); z-index:50; max-width:90vw; text-align:center;
+  }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .divlabel { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); text-align:center; margin:24px 0 14px; }
+
+  /* Settings */
+  .section-title { font-family:var(--serif); font-size:27px; font-weight:500; margin:10px 0 4px; }
+  .section-note { color:var(--text-dim); font-size:14px; margin-bottom:20px; }
+  .settings-card {
+    background:linear-gradient(160deg,var(--mist-strong),var(--mist)); border:1px solid var(--line);
+    border-radius:20px; padding:20px; margin-bottom:16px; backdrop-filter:blur(8px);
+  }
+  .settings-card.danger { border-color:rgba(251,113,133,.3); }
+  .settings-card h3 { font-family:var(--serif); font-size:20px; font-weight:500; margin-bottom:12px; }
+  .store-sum { font-size:14px; color:var(--text-soft); line-height:1.7; }
+  .store-sum .row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--line); }
+  .store-sum .row:last-child { border-bottom:none; }
+  .store-note { font-size:13.5px; color:var(--text-dim); line-height:1.6; margin-bottom:16px; }
+  .wipe-row { display:flex; flex-direction:column; gap:10px; }
+  .danger-btn {
+    background:linear-gradient(135deg,#fb7185,#be123c); color:#fff; border:none;
+    box-shadow:0 6px 20px rgba(190,18,60,.3);
+  }
+
+  /* Confirmation modal */
+  .modal-overlay {
+    position:fixed; inset:0; z-index:100; background:rgba(8,3,18,.78); backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  .modal-overlay.show { opacity:1; pointer-events:auto; }
+  .modal {
+    background:linear-gradient(160deg,var(--violet),var(--night)); border:1px solid var(--line);
+    border-radius:24px; padding:26px 24px; max-width:380px; width:100%;
+    box-shadow:0 24px 60px rgba(0,0,0,.5); transform:translateY(16px) scale(.96); transition:transform .25s cubic-bezier(.2,.8,.2,1);
+  }
+  .modal-overlay.show .modal { transform:translateY(0) scale(1); }
+  .modal .m-icon { font-size:34px; text-align:center; margin-bottom:12px; }
+  .modal h3 { font-family:var(--serif); font-size:24px; font-weight:500; text-align:center; margin-bottom:10px; }
+  .modal p { font-size:14.5px; color:var(--text-soft); text-align:center; line-height:1.6; margin-bottom:8px; }
+  .modal .warn-line { color:#fda4af; font-size:13px; }
+  .modal .confirm-check {
+    display:flex; align-items:flex-start; gap:10px; background:rgba(0,0,0,.25);
+    border:1px solid var(--line); border-radius:13px; padding:13px 14px; margin:16px 0; cursor:pointer;
+    font-size:14px; color:var(--text-soft); line-height:1.4;
+  }
+  .modal .confirm-check input { margin-top:3px; width:18px; height:18px; accent-color:#fb7185; flex-shrink:0; }
+  .modal-actions { display:flex; gap:10px; margin-top:6px; }
+  .modal-actions .btn { flex:1; }
+  nav{display:none!important;} body{padding-bottom:20px!important;}
+</style>
+</head>
+<body>
+<script>window.__WORLD_PREFIX__='reis';</script>
+<script src="js/bridge.js"></script>
+
+<div class="stars" id="stars"></div>
+
+<div class="wrap">
+  <header>
+    <div class="crest">✦</div>
+    <h1>The <em>Journey</em></h1>
+    <p>28 days that unfold day by day — and an oracle that gets to know you.</p>
+  </header>
+
+  <!-- PATH -->
+  <section class="panel active" id="pad">
+    <div id="pad-overview"></div>
+    <div id="pad-day" style="display:none"></div>
+  </section>
+
+  <!-- ORACLE -->
+  <section class="panel" id="orakel">
+    <div class="stage">
+      <div class="ocard" id="ocard" onclick="flipCard()">
+        <div class="ocard-inner">
+          <div class="face face-back">
+            <div class="border-orn"></div>
+            <div class="glyph">✦</div>
+            <div class="tap">Breathe in — tap to draw</div>
+          </div>
+          <div class="face face-front">
+            <div class="border-orn"></div>
+            <div class="oname" id="o-name"></div>
+            <div class="omsg" id="o-msg"></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn" id="o-btn" onclick="drawOracle()">Draw a card</button>
+    </div>
+    <div id="o-insight"></div>
+    <div class="divlabel" id="o-hist-label" style="display:none">What you drew</div>
+    <div class="odraws" id="o-history"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="panel" id="instellingen">
+    <h2 class="section-title">Settings</h2>
+    <p class="section-note">Your data is stored only on this device. You can clear it here.</p>
+
+    <div class="settings-card">
+      <h3>What's saved</h3>
+      <div id="storage-summary" class="store-sum">Loading…</div>
+    </div>
+
+    <div class="settings-card danger">
+      <h3>Clear data</h3>
+      <p class="store-note">This can't be undone. Your reflections, progress and draws will be lost.</p>
+      <div class="wipe-row">
+        <button class="btn ghost full" onclick="confirmWipe('path')">Clear only the 28-day path</button>
+        <button class="btn ghost full" onclick="confirmWipe('oracle')">Clear only the oracle history</button>
+        <button class="btn danger-btn full" onclick="confirmWipe('all')">Clear everything</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<nav>
+  <button class="nav-btn active" data-panel="pad" onclick="go('pad',this)"><span class="ico">✶</span>The path</button>
+  <button class="nav-btn" data-panel="orakel" onclick="go('orakel',this)"><span class="ico">☾</span>Oracle</button>
+  <button class="nav-btn" data-panel="instellingen" onclick="go('instellingen',this)"><span class="ico">⚙</span>Settings</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<!-- Clear confirmation modal -->
+<div class="modal-overlay" id="wipe-modal">
+  <div class="modal">
+    <div class="m-icon">🕯️</div>
+    <h3 id="wipe-title">Are you sure?</h3>
+    <p id="wipe-desc"></p>
+    <p class="warn-line">This can't be undone.</p>
+    <label class="confirm-check">
+      <input type="checkbox" id="wipe-check">
+      <span id="wipe-check-label">Yes, I understand this is final.</span>
+    </label>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeWipe()">Cancel</button>
+      <button class="btn danger-btn" id="wipe-confirm-btn" onclick="doWipe()" disabled>Clear</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA — 28-day path + oracle cards
+   Kept separate so merging later stays easy.
+   ============================================================ */
+
+const WEEKS = [
+  { n: 1, title: 'Making room', sub: 'Letting go of what no longer fits', color: '#c084fc' },
+  { n: 2, title: 'Seeing clearly', sub: 'Knowing what you really want', color: '#fbbf24' },
+  { n: 3, title: 'Attuning', sub: 'Opening yourself to receive', color: '#6ee7b7' },
+  { n: 4, title: 'Trusting', sub: 'Living as if it\'s already here', color: '#fb923c' },
+];
+
+/* Each day:
+   theme, lesson (2-3 paragraphs), exercise (concrete, with title), affirmation, reflection question */
+const DAYS = [
+// ---------- WEEK 1 — MAKING ROOM ----------
+  {
+    day:1, week:1, theme:'The first breath',
+    lesson:`Manifesting doesn't begin with longing — it begins with room. As long as you're full of old stories, busyness and tension, there's nowhere for anything new to land. Today we do nothing but arrive. No long lists, no big plans. Just a body that breathes again, in a room where you exist. That's already a lot.`,
+    exTitle:'Three breaths, three times a day',
+    exercise:`Set three moments for yourself today — morning, midday, evening. At each moment: stop, and take three slow breaths. Breathe in for four counts, out for six. That's all. You train your body to know: I am allowed to pause. Without you noticing, this changes everything.`,
+    affirm:'I make room. Something new may come.',
+    reflect:'Where in your life do you currently feel the most busyness or noise?'
+  },
+  {
+    day:2, week:1, theme:'What you hold holds you',
+    lesson:`Anything you're still clinging to — an old grudge, a disappointment, a version of yourself you've outgrown — takes up space. Not as punishment, but simply as fact: your hands can't receive while they're squeezing something. Today is about noticing what you're holding on to, not yet about letting go. Awareness is the first half of the work.`,
+    exTitle:'The one thing',
+    exercise:`Write on one note (paper, not your phone) one thing you're carrying with you that no longer serves you. Fold it up. Place it somewhere you'll see it in the coming days. We'll come back to it at the end of week one.`,
+    affirm:'I may set down what\'s heavy.',
+    reflect:'What are you carrying that no longer needs to be yours?'
+  },
+  {
+    day:3, week:1, theme:'The room of forgiveness',
+    lesson:`Forgiveness is often misunderstood. It doesn't mean what happened was okay. It means you refuse to give it free room in your head any longer. Forgiveness is something you do mostly for yourself — not because the other deserves it, but because you deserve to be free of it. Today is about that.`,
+    exTitle:'A sentence of forgiveness',
+    exercise:`Choose one person (it can be yourself) and finish this sentence: "I forgive [name] for [...] — not because it was okay, but because I no longer want to carry it." Say it aloud, write it down, or whisper it into your pillow. Whatever fits.`,
+    affirm:'I give myself the peace of letting go.',
+    reflect:'To whom — or to which part of yourself — may you forgive something?'
+  },
+  {
+    day:4, week:1, theme:'Tidy what you see',
+    lesson:`Your outer world and inner world talk to each other. A messy corner, a drawer full of old junk, a phone full of notifications — they're all small leaks where your attention drains away. You don't have to renovate your whole house. One spot is enough. The energy you free up is greater than you expect.`,
+    exTitle:'One spot, ten minutes',
+    exercise:`Pick one small spot — a drawer, a shelf, your wallet, your inbox. Set a timer for ten minutes. Clear, throw out, organise. Stop when the timer rings, even if you're not done. Done is better than perfect.`,
+    affirm:'Outer order helps my inner calm.',
+    reflect:'Which spot in your home or life drains the most energy from you?'
+  },
+  {
+    day:5, week:1, theme:'The words you use',
+    lesson:`Listen today to how you talk about your own life. "It never works for me." "I'm just like that." "That's not for me." Those aren't descriptions — they're instructions you give yourself, over and over. Your brain is loyal: it goes looking for evidence that you're right. Today you check what you keep telling yourself.`,
+    exTitle:'Catch and trade',
+    exercise:`Listen today to your own sentences — especially the negative ones about yourself. Pick one and trade it for something kinder. Not falsely positive ("I am amazing"), but more honest ("I am still learning, and that's okay"). Try out the new sentence at least three times today.`,
+    affirm:'I choose words that carry me.',
+    reflect:'Which sentence do you tell yourself that no longer serves you?'
+  },
+  {
+    day:6, week:1, theme:'Enough',
+    lesson:`Before you long for more, today is a day to feel what is already enough. Not as a lesson in contentment that sweeps your wishes under the rug, but as fuel: from enough you attract more strongly than from lack. Lack is a broadcast that you don't have it. Enough is a broadcast that you're already at home in your life.`,
+    exTitle:'Three times enough',
+    exercise:`Name three things today that are already enough. Out loud or on paper. Doesn't have to be big: your bed, that you can read, a friend who exists. Add an honest "thank you" — even just to yourself.`,
+    affirm:'What I have is already enough for now.',
+    reflect:'What do you already have that you usually overlook?'
+  },
+  {
+    day:7, week:1, theme:'Releasing the note',
+    lesson:`At the end of this first week we return to the note from day two. You've noticed it lying there a few times this week. Maybe something has already shifted in how you look at it. Today you don't have to do anything difficult — only finish what you started.`,
+    exTitle:'The note, the choice',
+    exercise:`Take the note from day two. Read what's on it. Now choose: do you tear it up, burn it safely, bury it, or throw it away with words spoken aloud? It doesn't matter which — choose what feels right. After: a hand on your heart. Done.`,
+    affirm:'I release what no longer needs to be mine.',
+    reflect:'How does it feel now that you\'ve let it go — relief, grief, both?'
+  },
+  // ---------- WEEK 2 — KNOWING WHAT YOU WANT ----------
+  {
+    day:8, week:2, theme:'What do you really want?',
+    lesson:`Vague longings give vague results. Many people know better what they don't want than what they do want. That's protection: if you choose nothing, you can miss nothing. But you also manifest nothing. This week it gets concrete. Today is about daring to know what you really want.`,
+    exTitle:'The list of ten',
+    exercise:`Set a timer for seven minutes. Write down ten things you really want in your life — large or small, practical or impossible. Don't think too long, don't censor. Just keep writing until the timer rings. Then read it back.`,
+    affirm:'I dare to know what I want.',
+    reflect:'What surprised you in your list?'
+  },
+  {
+    day:9, week:2, theme:'The feeling under the longing',
+    lesson:`Under every longing lies a feeling. You don't want a house — you want a feeling of home. Not money — a feeling of freedom or safety. Not "him" or "her" — a feeling of belonging. Today you look for the feeling behind your longing, because that's where the real magnet is.`,
+    exTitle:'Three layers deep',
+    exercise:`Pick one wish from yesterday's list. Ask three times why: "I want X — why? Because then I'd feel Y — why is that important? Because that gives me Z." Write down what comes up. The third answer is usually the most honest.`,
+    affirm:'I feel what I really seek.',
+    reflect:'Which feeling lies beneath your biggest wish?'
+  },
+  {
+    day:10, week:2, theme:'Do you allow yourself?',
+    lesson:`Sometimes you don't yet know what you want, but you do know what you don't dare to want. That's not laziness or vagueness — that's a deeper layer: you don't yet allow yourself to long for it. Often because someone once made it clear "that's not for you" or "don't ask too much". Today you investigate which permission is missing.`,
+    exTitle:'The forbidden wish',
+    exercise:`Finish this sentence three times: "If I were truly allowed to want anything, I would want..." Don't filter. The wishes you find too big, too greedy or too vulnerable — those are exactly the ones that ask attention.`,
+    affirm:'I give myself permission to want.',
+    reflect:'Which wish have you not yet dared to say aloud?'
+  },
+  {
+    day:11, week:2, theme:'The future image',
+    lesson:`Your brain doesn't sharply distinguish between vividly imagined and actually experienced. Both shape who you become. That's why visualisation works — not as magic, but as training. The brain learns: this is normal, this is who I am. Today you build a scene of one ordinary day in your future, as concretely as possible.`,
+    exTitle:'One ordinary day, in detail',
+    exercise:`Close your eyes for five minutes. Walk through one ordinary day, two years from now, in a life where the most important things are in place. Where do you wake? What do you eat? Who's there? How does your body feel? Not the big scenes — the small. Then write down a few details.`,
+    affirm:'I already live the version I am becoming.',
+    reflect:'Which detail of that day touched you most?'
+  },
+  {
+    day:12, week:2, theme:'One clear intention',
+    lesson:`After all this clarification it's time to focus. Trying to manifest ten things at once disperses your energy. Picking one for now isn't a betrayal of the rest — they get their turn. Today you pick one clear intention to carry as the centre of your weeks ahead. Concrete, in present tense, with a feeling.`,
+    exTitle:'My intention, one sentence',
+    exercise:`Write one sentence in present tense that describes what you intend. Format: "I... [verb], and feel... [feeling]." Example: "I work in a place where my energy grows, and I feel useful." Refine it until it really fits. Read it aloud.`,
+    affirm:'I am clear about what I want.',
+    reflect:'What does this intention give you that you didn\'t have yet?'
+  },
+  {
+    day:13, week:2, theme:'The fear that comes along',
+    lesson:`Every clear longing brings a shadow: fear. What if I want this and it doesn't happen? What if I get it and lose it? What if I'm not worthy of it? That's all normal. Fear isn't a sign to stop, but a sign that this matters. Today you let your fears speak — not to combat them, but to acknowledge them.`,
+    exTitle:'The fear-letter',
+    exercise:`Write a letter — addressed to your fear. "Dear fear, I see you. You're worried about..." Let the fear say what it's worried about. Then write a short answer: not arguing with it, just acknowledging. "I hear you. I'm going anyway."`,
+    affirm:'My fear may come along — it doesn\'t drive.',
+    reflect:'Which fear came along this week?'
+  },
+  {
+    day:14, week:2, theme:'Clear and carried',
+    lesson:`This is the end of week two. You know now what you want, you know why, and you know what's afraid of it. That's already more than most people know about themselves. Today is a day to acknowledge that — and to rest before next week, when it becomes more practical.`,
+    exTitle:'A small ritual of acknowledgement',
+    exercise:`Take five minutes today, alone, without your phone. Read back what you wrote on day twelve — your one sentence. Place a hand on your heart and say: "I know what I want, and I dare to walk towards it." Then drink water, breathe out, and continue with your day.`,
+    affirm:'I know my way, and I am carried.',
+    reflect:'What did the past two weeks bring you?'
+  },
+  // ---------- WEEK 3 — FEELING & TRUSTING ----------
+  {
+    day:15, week:3, theme:'Receiving is a skill',
+    lesson:`Many people can ask, few can receive. The moment something good comes — a compliment, help, a chance — they smile it away, minimise it, give back too fast. That's how an opening closes. Receiving is allowing something to actually land. This week begins with a small training in receiving.`,
+    exTitle:'The full "thank you"',
+    exercise:`Today say one thing: "Thank you." Without "but no really", without "oh that wasn't anything", without immediately giving back. Just: thank you, with a breath. Notice your discomfort, and stay with it. The more often, the better.`,
+    affirm:'I am allowed to receive.',
+    reflect:'When did you most recently feel that someone gave you something?'
+  },
+  {
+    day:16, week:3, theme:'Learning to see signs',
+    lesson:`Not everything that happens is "a sign" — but if you only look for hard proof, you miss the soft language of life. A recurring word, an unexpected encounter, a song that suddenly plays. Are they signs or coincidence? It hardly matters. What matters is that the practice of softly watching makes you more open to what comes.`,
+    exTitle:'The sign-list',
+    exercise:`Today gently watch what stands out. A word that returns. A number you keep seeing. A song at the right moment. Write down three observations this evening, without judging them. Not "what does this mean" — just "I saw this".`,
+    affirm:'Signs are around me — I see them.',
+    reflect:'Did anything catch your attention today that you would normally have missed?'
+  },
+  {
+    day:17, week:3, theme:'The art of letting go without giving up',
+    lesson:`This is the trickiest balance in manifesting. Letting go doesn't mean stopping caring. Holding on doesn't mean trying harder. It's like riding a bike: too tight on the handlebars and you wobble, too loose and you fall. Soft trust is what's needed: I'm aiming there, and I let the way to it breathe.`,
+    exTitle:'Soften the grip',
+    exercise:`Pick one thing this week that you're holding tightly — a wish, a worry, a question that runs through your head. Write: "I want [...], and I trust the timing." Read it once, breathe out, then close the page. Don't check it ten times today.`,
+    affirm:'I aim with a soft hand.',
+    reflect:'Where do you notice you\'re clutching too hard?'
+  },
+  {
+    day:18, week:3, theme:'Acting from trust',
+    lesson:`Manifesting isn't sitting back. It's acting from a different kind of energy. Action from panic is loud, hectic, draining. Action from trust is calm, light, sometimes even playful. Today you learn the difference — by paying attention to what your body does when you're about to do something.`,
+    exTitle:'The light step',
+    exercise:`Today pick one action that fits your intention. Check before you do it: does this feel light or heavy? If heavy, ask why. Maybe it's the wrong step, maybe the wrong moment. Take only the action that feels light — even if it's small.`,
+    affirm:'I move from trust, not from panic.',
+    reflect:'Which action felt light today? Which heavy?'
+  },
+  {
+    day:19, week:3, theme:'Your environment tunes in',
+    lesson:`You are not an island. The people you spend time with, the spaces you sit in, the content you consume — it all shapes your vibration. Not in a strict way ("avoid negative people!"), but soft: notice what fills you and what drains you. Choose more often what fills, where you can.`,
+    exTitle:'The energy-check',
+    exercise:`Today gently check your environment. Which person, app, place or activity gave you energy? Which took it? Don't have to do anything drastic — just notice. This week, choose once consciously for something that fills you.`,
+    affirm:'I choose what feeds me.',
+    reflect:'Who or what gives you energy without you having to ask for it?'
+  },
+  {
+    day:20, week:3, theme:'Forward with gratitude',
+    lesson:`Gratitude is the shortest path back to your frequency. Not the gratitude of "you must always be grateful, others have it worse" — that doesn't work. Honest gratitude: the small things you actually notice. The first sip of coffee. Your bed. Someone who texted. From that gratitude you move forward, not from a list of complaints.`,
+    exTitle:'Three sips of gratitude',
+    exercise:`Three times today, pause for a moment of gratitude. Morning: one thing for your body. Afternoon: one person. Evening: one thing about your life that surprises you. Write it down, say it, or just feel it. Three times is enough.`,
+    affirm:'Gratitude is my fastest key.',
+    reflect:'Which gratitude surprised you today?'
+  },
+  {
+    day:21, week:3, theme:'Attuned',
+    lesson:`This is the end of week three. You're now more familiar with the feeling, with trusting, with acting lightly. That's a different state than three weeks ago — even if you don't see it yet. Today is a moment to feel how attuned you are now. Without overthinking.`,
+    exTitle:'A still ten minutes',
+    exercise:`Take ten minutes today, alone, in silence. No phone. No music. Just sit, breathe, and feel where you are now. Don't think — feel. After ten minutes, write one sentence: "Right now I feel..."`,
+    affirm:'I am attuned to my life.',
+    reflect:'What is different now compared to three weeks ago?'
+  },
+  // ---------- WEEK 4 — LIVING AS IF ----------
+  {
+    day:22, week:4, theme:'Living as if',
+    lesson:`The deepest manifestation principle: you become what you act like. Not "fake it till you make it" in a forced way — but genuinely behaving like the version of you who already has what you want. How does she walk? How does she answer the phone? How does she handle setbacks? Today you become her for one day.`,
+    exTitle:'One day as her/him',
+    exercise:`Pick one day this week — could be today — to live consciously as the version of you who already has your intention. Small choices: how she eats, how she rests, what she says yes or no to. Notice what feels strange, and what feels familiar.`,
+    affirm:'I am already who I am becoming.',
+    reflect:'Which detail did "she" do differently than the old you?'
+  },
+  {
+    day:23, week:4, theme:'Patience without doubt',
+    lesson:`Patience is hard, especially when you long. Doubt creeps in: "is it actually coming?" That doubt is itself a broadcast on "it isn't here." So patience is more than waiting — it's keeping faith without checking constantly. The trick: trust isn't a feeling, it's a practice. You do it, again and again.`,
+    exTitle:'The trust-line',
+    exercise:`Pick one sentence today that you repeat when impatience comes up. Example: "It's on the way, and I'm at peace with the timing." Use it three times today. Notice that it's a choice, not a feeling. The feeling follows.`,
+    affirm:'I trust the timing of my life.',
+    reflect:'Where does impatience grab you most often?'
+  },
+  {
+    day:24, week:4, theme:'When things go against you',
+    lesson:`No manifestation goes in a straight line. There will be days when you lose faith, when something seems to go backwards, when fear takes over. That's not failure. It's part of the way. Today is about how you handle setback — not by ignoring it, but by relating to it differently.`,
+    exTitle:'The 60-second reset',
+    exercise:`Next time something goes against you, do this: stop. One hand on your chest, one on your belly. Breathe in for four, out for six, five times. Then say: "This is a moment, not the whole story." Then take one small step that fits with trust.`,
+    affirm:'A setback is a moment, not a verdict.',
+    reflect:'Which setback this week told you something?'
+  },
+  {
+    day:25, week:4, theme:'Generosity opens the flow',
+    lesson:`When you give from abundance (not from duty or emptiness), something strange happens: you feel richer, not poorer. Giving is a broadcast that there's enough. And what you broadcast, you receive back. Today is about giving — not big, but generous.`,
+    exTitle:'Three small gifts',
+    exercise:`Give three small things today. Could be material (something from your home that someone else can use), time (a message to someone you've been thinking of), or attention (a sincere compliment). Give without expecting anything back. Notice how it feels.`,
+    affirm:'I give from abundance, and the flow stays open.',
+    reflect:'Which giving today felt best?'
+  },
+  {
+    day:26, week:4, theme:'Your own evidence',
+    lesson:`You don't need anyone else's belief to see that something is shifting. Your own evidence is sufficient. Look back at these four weeks: what's different? Maybe small things — a calmer morning, a thought that no longer chased itself, an action that felt light. That's the proof. Collect it.`,
+    exTitle:'The evidence-list',
+    exercise:`Write down five small things that are different now compared to four weeks ago. Don't have to be impressive — small counts. "I breathed once before I answered." "I noticed a sign." "I rested without guilt." That's your evidence.`,
+    affirm:'My own evidence is enough.',
+    reflect:'Which change makes you most proud?'
+  },
+  {
+    day:27, week:4, theme:'It becomes a way of life',
+    lesson:`This isn't a 28-day project — it's an introduction. What you've practised here doesn't end after day 28. It becomes how you live, in flexible form. Not strict, not mandatory. Just available, when you need it. Today you make a simple plan for after.`,
+    exTitle:'My three keepers',
+    exercise:`Pick three things from these weeks that you want to keep. Not all of them — three is enough. Write them down, in your own words. Example: "Three breaths, three times a day. One thing of gratitude in the evening. Catching limiting sentences." That's your practice from now on.`,
+    affirm:'This is my way, not a project.',
+    reflect:'Which three keepers are coming with you?'
+  },
+  {
+    day:28, week:4, theme:'The end that\'s a beginning',
+    lesson:`Today is the last day, and at the same time a beginning. What started four weeks ago as something new is now a layer in you. Softly. Not as method, but as way of being. You don't have to do anything special today. Just be — and notice that you're slightly different than four weeks ago.`,
+    exTitle:'A letter to yourself, one year on',
+    exercise:`Write a short letter to yourself from one year ago, just before you began. Tell her or him what shifted, what you've learned, what surprised you. Be honest, gentle, brief. After: fold the letter and put it somewhere where, in a year, you'll come across it again.`,
+    affirm:'I keep walking, soft and clear.',
+    reflect:'What did these 28 days bring that you hadn\'t expected?'
+  }
+
+];
+
+/* ---------- ORACLE ---------- */
+/* Cards with theme tag so the app can detect patterns */
+const ORACLE = [
+  { card:'Letting go', msg:'Something in your life is asking to be released. Not by force, but with an open hand.', tag:'letting-go' },
+  { card:'Trust', msg:'You\'re about to force something that would come on its own. Breathe. It\'s on the way.', tag:'trust' },
+  { card:'Patience', msg:'What you want is still ripening. That it isn\'t here doesn\'t mean it isn\'t coming.', tag:'patience' },
+  { card:'Receiving', msg:'Open your hands. Something is coming that you can only catch if you don\'t grab.', tag:'receiving' },
+  { card:'Courage', msg:'The fear you feel is a sign that it matters to you. Move, even if you tremble.', tag:'courage' },
+  { card:'Rest', msg:'You don\'t have to achieve anything today. The silence itself is the work.', tag:'rest' },
+  { card:'Abundance', msg:'There is more than enough. Give something away and feel the flow restart.', tag:'abundance' },
+  { card:'Clarity', msg:'You actually already know what you want. Stop talking yourself into doubt.', tag:'clarity' },
+  { card:'Signs', msg:'Watch softly in the coming days. You\'re being winked at, more often than you think.', tag:'signs' },
+  { card:'Self-worth', msg:'You may want this. You are worthy, even if an old voice says otherwise.', tag:'self-worth' },
+  { card:'Connection', msg:'Reach out to someone today. The bridge you\'re seeking goes through another.', tag:'connection' },
+  { card:'Inspired action', msg:'A small step is presenting itself. Don\'t postpone — do it today.', tag:'action' },
+  { card:'Gratitude', msg:'Briefly count what\'s already here. From enough you attract more strongly than from lack.', tag:'gratitude' },
+  { card:'Forgiveness', msg:'Someone — maybe yourself — is still waiting for your forgiveness. It\'s for your peace.', tag:'forgiveness' },
+  { card:'Protection', msg:'Protect what\'s still tender. Not every dream belongs out loud, not yet.', tag:'protection' },
+  { card:'Timing', msg:'The detour isn\'t a mistake. Trust a plan you can\'t yet oversee.', tag:'timing' },
+  { card:'Embodiment', msg:'Be now who you want to become. Circumstances follow who you are, not the other way around.', tag:'embodiment' },
+  { card:'Space', msg:'Empty something — a drawer, a schedule, a thought. The new needs room.', tag:'space' },
+];
+
+</script>
+<script>
+  /* ---------- Stars ---------- */
+  (function(){
+    const c=document.getElementById('stars');
+    for(let i=0;i<46;i++){ const s=document.createElement('div'); s.className='star';
+      const sz=Math.random()*2+1; s.style.width=sz+'px'; s.style.height=sz+'px';
+      s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+      s.style.setProperty('--dur',(Math.random()*4+3)+'s'); s.style.setProperty('--max',(Math.random()*.6+.3).toFixed(2));
+      s.style.animationDelay=(Math.random()*5)+'s'; c.appendChild(s);
+    }
+  })();
+
+  function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  let toastT;
+  function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2200); }
+
+  function go(id,el){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(id==='pad') renderPad();
+    if(id==='orakel') renderOracle();
+    if(id==='instellingen') renderSettings();
+  }
+
+  /* ============================================================
+     PATH — progress & day unfolding
+     Storage:
+       path:progress  -> { unlocked:int (highest unlocked day), done:[day numbers], started:ts, lastDone:dateStr }
+     A new day unlocks when the previous one is done AND a new calendar day has started.
+     ============================================================ */
+  const todayStr = ()=> new Date().toISOString().slice(0,10);
+
+  async function getProgress(){
+    try{ const r=await window.storage.get('path:progress'); if(r) return JSON.parse(r.value); }catch(e){}
+    return { unlocked:1, done:[], started:null, lastDone:null };
+  }
+  async function setProgress(p){ try{ await window.storage.set('path:progress', JSON.stringify(p)); }catch(e){} }
+
+  let viewingDay = null;
+
+  async function renderPad(){
+    const p = await getProgress();
+    const ov = document.getElementById('pad-overview');
+    const dv = document.getElementById('pad-day');
+    dv.style.display='none'; ov.style.display='block';
+
+    const doneCount = p.done.length;
+    const pct = Math.round(doneCount/28*100);
+
+    let weeksHtml = WEEKS.map(w=>{
+      const days = DAYS.filter(d=>d.week===w.n);
+      const dots = days.map(d=>{
+        const done = p.done.includes(d.day);
+        const unlocked = d.day <= p.unlocked;
+        const today = d.day===p.unlocked && !done;
+        let cls='day-dot'; if(done)cls+=' done'; else if(!unlocked)cls+=' locked'; if(today)cls+=' today';
+        const inner = unlocked ? d.day : '<span class="lock">🔒</span>';
+        const onclick = unlocked ? `onclick="openDay(${d.day})"` : '';
+        return `<div class="${cls}" ${onclick}>${inner}</div>`;
+      }).join('');
+      return `<div class="week-block">
+        <div class="week-head"><span class="wn">Week ${w.n}</span><span class="wt" style="color:${w.color}">${w.title}</span></div>
+        <div style="font-size:12.5px;color:var(--text-dim);margin:-8px 0 12px 2px">${w.sub}</div>
+        <div class="day-grid">${dots}</div>
+      </div>`;
+    }).join('');
+
+    const goBtn = (p.unlocked>0 && !p.done.includes(p.unlocked))
+      ? '<div style="text-align:center;margin-bottom:20px"><button class="btn" onclick="openDay('+p.unlocked+')">Go to day '+p.unlocked+' →</button></div>'
+      : '';
+
+    ov.innerHTML = `
+      <div class="progress-ring">
+        <div class="big">${doneCount}<span style="font-size:24px;color:var(--text-dim)">/28</span></div>
+        <div class="small">days completed${doneCount===28?' — you have completed the path ✦':''}</div>
+        <div class="track-bar"><div class="track-fill" style="width:${pct}%"></div></div>
+      </div>
+      ${goBtn}
+      ${weeksHtml}
+      <p class="hint" style="text-align:center;margin-top:8px">Each day opens one new step. A new day wakes only after you\'ve completed the previous one <em>and</em> a new morning has arrived.</p>
+    `;
+  }
+
+  async function openDay(n){
+    const p = await getProgress();
+    if(n > p.unlocked) return;
+    viewingDay = n;
+    const d = DAYS.find(x=>x.day===n);
+    const w = WEEKS.find(x=>x.n===d.week);
+    const done = p.done.includes(n);
+    const ov=document.getElementById('pad-overview'); const dv=document.getElementById('pad-day');
+    ov.style.display='none'; dv.style.display='block'; dv.className='day-view';
+
+    const lessonHtml = d.lesson.split('\n\n').map(par=>`<p>${esc(par)}</p>`).join('');
+
+    dv.innerHTML = `
+      <button class="btn ghost sm" onclick="renderPad()" style="margin-bottom:16px">← Overview</button>
+      <div class="day-meta">
+        <span class="wk" style="color:${w.color}">Week ${w.n} · ${esc(w.title)}</span>
+        <span class="day-num">Day ${d.day}</span>
+      </div>
+      <div class="day-theme">${esc(d.theme)}</div>
+      <div class="lesson">${lessonHtml}</div>
+
+      <div class="ex-card">
+        <div class="tag">Today's exercise</div>
+        <h4>${esc(d.exTitle)}</h4>
+        <p>${esc(d.exercise)}</p>
+      </div>
+
+      <div class="affirm-card">
+        <div class="tag">Affirmation</div>
+        <div class="txt">"${esc(d.affirm)}"</div>
+      </div>
+
+      <div class="reflect-card">
+        <div class="tag">Reflection</div>
+        <div class="q">${esc(d.reflect)}</div>
+        <textarea id="reflect-input" placeholder="Write what comes up… (will be saved)"></textarea>
+        <div class="status" id="reflect-status"></div>
+      </div>
+
+      <div class="day-nav">
+        ${ done
+          ? '<button class="btn ghost full" onclick="saveReflection('+n+')">Save reflection</button>'
+          : '<button class="btn full" onclick="completeDay('+n+')">Finish day '+n+' ✦</button>' }
+      </div>
+      ${ done && n<28 ? (
+          '<div style="margin-top:14px; text-align:center">' +
+          ( p.unlocked > n
+            ? '<button class="btn full" onclick="openDay('+(n+1)+')">Continue to day '+(n+1)+' →</button>'
+            : '<p class="hint">Day '+(n+1)+' opens automatically tomorrow morning — that\'s how the path keeps its rhythm.</p>'+
+              '<button class="btn ghost sm" style="margin-top:10px" onclick="unlockNextNow('+n+')">I want to continue today →</button>'
+          ) + '</div>'
+        ) : '' }
+      ${ done && n===28 ? '<p class="hint" style="text-align:center;margin-top:14px">You\'ve completed all 28 days. ✦ You may start the path again whenever you wish — via the overview.</p>' : '' }
+    `;
+
+    // load existing reflection
+    try{ const r=await window.storage.get('path:reflect:'+n); if(r){ document.getElementById('reflect-input').value=JSON.parse(r.value).text||''; } }catch(e){}
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  async function saveReflection(n){
+    const txt = document.getElementById('reflect-input').value.trim();
+    try{ await window.storage.set('path:reflect:'+n, JSON.stringify({text:txt, ts:Date.now()})); 
+      const st=document.getElementById('reflect-status'); st.textContent='Saved ✦'; setTimeout(()=>st.textContent='',2500);
+    }catch(e){}
+  }
+
+  async function completeDay(n){
+    await saveReflection(n);
+    const p = await getProgress();
+    if(!p.done.includes(n)) p.done.push(n);
+    if(!p.started) p.started = Date.now();
+    p.lastDone = todayStr();
+    await setProgress(p);
+    toast(n===28 ? 'You have completed the path ✦' : 'Day '+n+' done ✦');
+    await maybeUnlockNext();
+    openDay(n); // reload the day so the right follow-up button appears
+  }
+
+  // Manually unlock the next day (own pace)
+  async function unlockNextNow(n){
+    const p = await getProgress();
+    if(n === p.unlocked && n < 28){ p.unlocked = n+1; await setProgress(p); }
+    openDay(n+1);
+  }
+
+  // Unlocks the next day if the last completed day was on an earlier calendar day
+  async function maybeUnlockNext(){
+    const p = await getProgress();
+    const top = p.unlocked;
+    if(p.done.includes(top) && top<28){
+      // has a new day started since completing?
+      if(p.lastDone && p.lastDone !== todayStr()){
+        p.unlocked = top+1; await setProgress(p);
+      }
+    }
+  }
+
+  /* ============================================================
+     ORACLE — drawing + pattern recognition
+     Storage: oracle:history -> [{ts, card, msg, tag}]  (max ~60 kept)
+     ============================================================ */
+  let currentDraw = null, isFlipped=false;
+
+  async function getHistory(){
+    try{ const r=await window.storage.get('oracle:history'); if(r) return JSON.parse(r.value); }catch(e){}
+    return [];
+  }
+  async function setHistory(h){ try{ await window.storage.set('oracle:history', JSON.stringify(h.slice(-60))); }catch(e){} }
+
+  function flipCard(){
+    if(!currentDraw) return;
+    isFlipped=!isFlipped;
+    document.getElementById('ocard').classList.toggle('flipped',isFlipped);
+  }
+
+  async function drawOracle(){
+    const card = ORACLE[Math.floor(Math.random()*ORACLE.length)];
+    currentDraw = card;
+    document.getElementById('o-name').textContent = card.card;
+    document.getElementById('o-msg').textContent = card.msg;
+    // flip animation
+    const oc=document.getElementById('ocard');
+    oc.classList.remove('flipped'); isFlipped=false;
+    setTimeout(()=>{ oc.classList.add('flipped'); isFlipped=true; },80);
+    document.getElementById('o-btn').textContent='Draw again';
+
+    // save
+    const h = await getHistory();
+    h.push({ ts:Date.now(), card:card.card, msg:card.msg, tag:card.tag });
+    await setHistory(h);
+    setTimeout(()=>renderInsight(h), 850);
+    renderHistory(h);
+  }
+
+  function fmtShort(ts){ const d=new Date(ts); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
+
+  function renderInsight(h){
+    const box=document.getElementById('o-insight');
+    if(h.length<3){ box.innerHTML=''; return; }
+    // look at the last 7 draws
+    const recent = h.slice(-7);
+    const counts = {};
+    recent.forEach(x=>{ counts[x.tag]=(counts[x.tag]||0)+1; });
+    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    const [topTag, topN] = sorted[0];
+    const topCardName = (recent.slice().reverse().find(x=>x.tag===topTag)||{}).card || topTag;
+
+    const themeWord = {
+      'letting-go':'letting go', trust:'trust', patience:'patience', receiving:'receiving',
+      courage:'courage', rest:'rest', abundance:'abundance', clarity:'clarity', signs:'reading signs',
+      'self-worth':'your self-worth', connection:'connection', action:'taking action',
+      gratitude:'gratitude', forgiveness:'forgiveness', protection:'protection',
+      timing:'timing', embodiment:'embodiment', space:'making room'
+    }[topTag] || topTag;
+
+    let body;
+    if(topN>=3){
+      body = `<p>The cards keep bringing you back to <span class="pat">${esc(themeWord)}</span>. Three or more times in your last draws. That\'s no coincidence — this theme truly asks your attention now.</p>`;
+    } else if(topN===2){
+      body = `<p>Lately you keep drawing around <span class="pat">${esc(themeWord)}</span>. Something in you knows what it\'s about. Stay softly with it.</p>`;
+    } else {
+      body = `<p>Your draws are varied — you\'re open to what comes. The thread now lies mainly in <span class="pat">${esc(themeWord)}</span>.</p>`;
+    }
+    box.innerHTML = `<div class="insight"><div class="tag">What the oracle sees in you</div>${body}</div>`;
+  }
+
+  function renderHistory(h){
+    const lab=document.getElementById('o-hist-label');
+    const wrap=document.getElementById('o-history');
+    if(!h.length){ lab.style.display='none'; wrap.innerHTML=''; return; }
+    lab.style.display='block';
+    wrap.innerHTML = h.slice().reverse().slice(0,12).map(x=>`
+      <div class="odraw"><span class="od">${fmtShort(x.ts)}</span><span class="oc">${esc(x.card)}</span></div>
+    `).join('');
+  }
+
+  async function renderOracle(){
+    const h = await getHistory();
+    renderHistory(h);
+    if(h.length>=3) renderInsight(h); else document.getElementById('o-insight').innerHTML='';
+  }
+
+  /* ============================================================
+     SETTINGS — overview + clearing with double confirmation
+     ============================================================ */
+  async function renderSettings(){
+    const sum = document.getElementById('storage-summary');
+    const p = await getProgress();
+    const h = await getHistory();
+    // count reflections
+    let reflectCount = 0;
+    try{
+      const res = await window.storage.list('path:reflect:');
+      if(res && res.keys) reflectCount = res.keys.length;
+    }catch(e){}
+    sum.innerHTML =
+      '<div class="row"><span>Completed days</span><span>'+p.done.length+' / 28</span></div>' +
+      '<div class="row"><span>Written reflections</span><span>'+reflectCount+'</span></div>' +
+      '<div class="row"><span>Oracle draws</span><span>'+h.length+'</span></div>';
+  }
+
+  let wipeScope = null;
+  function confirmWipe(scope){
+    wipeScope = scope;
+    const titles = { path:'Clear the 28-day path?', oracle:'Clear oracle history?', all:'Clear everything?' };
+    const descs = {
+      path:'Your progress and all written reflections of the path will be removed. The oracle stays saved.',
+      oracle:'All your oracle draws and pattern insight will be deleted. Your path stays saved.',
+      all:'Everything will be deleted: your path progress, your reflections <em>and</em> your oracle history. The app starts fresh.'
+    };
+    const checkLabels = {
+      path:'Yes, clear my path progress and reflections.',
+      oracle:'Yes, clear my oracle history.',
+      all:'Yes, I understand that <em>all</em> my data will be permanently deleted.'
+    };
+    document.getElementById('wipe-title').textContent = titles[scope];
+    document.getElementById('wipe-desc').textContent = descs[scope];
+    document.getElementById('wipe-check-label').textContent = checkLabels[scope];
+    const chk = document.getElementById('wipe-check');
+    const btn = document.getElementById('wipe-confirm-btn');
+    chk.checked = false; btn.disabled = true;
+    chk.onchange = ()=>{ btn.disabled = !chk.checked; };
+    document.getElementById('wipe-modal').classList.add('show');
+  }
+  function closeWipe(){
+    document.getElementById('wipe-modal').classList.remove('show');
+    wipeScope = null;
+  }
+  async function doWipe(){
+    if(!document.getElementById('wipe-check').checked) return;
+    try{
+      if(wipeScope==='path' || wipeScope==='all'){
+        await window.storage.delete('path:progress');
+        const res = await window.storage.list('path:');
+        if(res && res.keys){ for(const k of res.keys){ try{ await window.storage.delete(k); }catch(e){} } }
+      }
+      if(wipeScope==='oracle' || wipeScope==='all'){
+        await window.storage.delete('oracle:history');
+      }
+    }catch(e){}
+    closeWipe();
+    toast('Data cleared');
+    // reload relevant screens
+    currentDraw=null; isFlipped=false;
+    const oc=document.getElementById('ocard'); if(oc) oc.classList.remove('flipped');
+    document.getElementById('o-name').textContent=''; document.getElementById('o-msg').textContent='';
+    document.getElementById('o-btn').textContent='Draw a card';
+    document.getElementById('o-insight').innerHTML='';
+    await maybeUnlockNext();
+    renderSettings();
+    renderPad();
+    renderOracle();
+  }
+
+  /* ---------- init ---------- */
+  (async function(){
+    await maybeUnlockNext();
+    renderPad();
+  })();
+</script>
+</body>
+</html>
