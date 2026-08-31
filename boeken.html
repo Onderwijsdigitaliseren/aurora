@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ik wil het begrijpen — zes visies — VANDAAG</title>
+<meta name="description" content="Zes visies uit ruim een eeuw denken over manifesteren — kerngedachte, wat je eruit meeneemt, een eerlijke nuance en de route die het vertaalt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/stijl.css">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="alternate" hreflang="en" href="boeken-en.html">
+<style>
+.lang-toggle{display:flex;justify-content:center;gap:.4rem;margin-bottom:1.4rem}
+.lang-toggle a,.lang-toggle span{
+  font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  padding:.35rem .9rem;border-radius:999px;text-decoration:none;
+}
+.lang-toggle span{color:#241335;background:linear-gradient(135deg,#F0CE92,#D8A854)}
+.lang-toggle a{color:var(--text-soft);border:1px solid var(--line)}
+.lang-toggle a:hover{color:var(--gold);border-color:var(--gold)}
+.book-card{position:relative;text-align:left;cursor:pointer;width:100%}
+.book-card .lijn{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--gold);font-size:1.05rem;margin-bottom:.35rem}
+.book-card .spine{
+  position:absolute;left:0;top:18px;bottom:18px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#F0CE92,#C89AE8);opacity:.7;
+}
+.book-panel .lijn{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--gold);font-size:1.2rem;margin-bottom:.7rem}
+.book-panel p.kern{color:var(--text);font-size:.98rem;margin-bottom:.8rem}
+.book-panel h4{font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;color:var(--violet);font-weight:600;margin:1rem 0 .45rem}
+.book-punten{list-style:none;display:grid;gap:.4rem;margin-bottom:.4rem}
+.book-punten li{display:grid;grid-template-columns:1.1rem 1fr;gap:.5rem;color:var(--cream);font-size:.95rem}
+.book-punten li::before{content:"\2726";color:var(--gold)}
+.book-nuance{border-left:2px solid rgba(232,190,122,.5);padding:.15rem 0 .15rem .8rem;color:var(--text-soft);font-size:.93rem}
+.book-panel .panel-actions{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:flex-end;margin-top:1.2rem}
+.leesgids{max-width:44rem;margin:2.6rem auto 0;text-align:center}
+.leesgids .cards{margin-top:1rem}
+.leesgids .card{cursor:default}
+.leesgids .card:hover{transform:none;border-color:var(--line);box-shadow:none}
+.leesgids .card b{color:var(--gold);font-family:var(--font-display);font-weight:600;font-size:1.15rem}
+</style>
+</head>
+<body>
+
+<div class="starsky" aria-hidden="true"><i></i><i></i></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<header class="site-header">
+  <a class="wordmark" href="index.html" aria-label="Vandaag">
+    <svg width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+      <circle cx="13" cy="13" r="9" stroke="#E8BE7A" stroke-width="1.4"/>
+      <path d="M13 8 v5 l3.5 3.5" stroke="#E8BE7A" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    VANDAAG
+  </a>
+  <nav class="site-nav" aria-label="Hoofdnavigatie">
+    <a href="begin.html">Begin</a>
+    <a href="ontdek.html">Ontdek</a>
+    <a href="boeken.html" aria-current="page">Boeken</a>
+    <a href="mijn-ruimte.html">Mijn ruimte</a>
+    <button class="pill" data-calm aria-pressed="false"><span class="dot" aria-hidden="true"></span> Rust</button>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="page-head rise">
+    <div class="lang-toggle"><span aria-current="true">NL</span><a href="boeken-en.html" hreflang="en" lang="en">EN</a></div>
+    <p class="eyebrow">Ik wil het begrijpen</p>
+    <h1>Zes visies, in onze eigen woorden.</h1>
+    <p>Ruim een eeuw is er gedacht en geschreven over manifesteren — van verbeelding en intuïtie tot dankbaarheid en dagelijkse daadkracht. We destilleerden er zes visies uit en vertellen ze in onze eigen woorden: de kerngedachte, wat je eruit meeneemt, waar de nuance zit — en welke route het vertaalt naar een oefening van drie minuten.</p>
+  </div>
+
+  <div class="cards">
+      <button class="card book-card" data-book="vk0" aria-haspopup="dialog">
+        <span class="spine" aria-hidden="true"></span>
+        <span class="tag">Visie 1 · De Verbeelding</span>
+        <h3>De verbeeldingskracht</h3>
+        <p class="lijn">&ldquo;Beelden gaan aan verandering vooraf.&rdquo;</p>
+        <p>Al ruim een eeuw keert dezelfde gedachte terug: wat je je levendig en met gevoel voorstelt, begint aan je te t&hellip;</p>
+        <span class="link">Lees verder &rarr;</span>
+      </button>
+      <button class="card book-card" data-book="vk1" aria-haspopup="dialog">
+        <span class="spine" aria-hidden="true"></span>
+        <span class="tag">Visie 2 · Het Innerlijk Kompas</span>
+        <h3>De innerlijke stem</h3>
+        <p class="lijn">&ldquo;Onder het denken ligt een stiller weten.&rdquo;</p>
+        <p>Deze stroming wantrouwt de drukte van het hoofd. Een verlangen dat uit vergelijken en moeten voortkomt, went n&hellip;</p>
+        <span class="link">Lees verder &rarr;</span>
+      </button>
+      <button class="card book-card" data-book="vk2" aria-haspopup="dialog">
+        <span class="spine" aria-hidden="true"></span>
+        <span class="tag">Visie 3 · De Krachtbron</span>
+        <h3>De overtuiging</h3>
+        <p class="lijn">&ldquo;De grens van wat je durft ligt waar je geloof over jezelf ophoudt.&rdquo;</p>
+        <p>Overtuigingen zijn de bedding waar je verlangen doorheen stroomt. Wie gelooft dat kwaliteiten vastliggen, ontw&hellip;</p>
+        <span class="link">Lees verder &rarr;</span>
+      </button>
+      <button class="card book-card" data-book="vk3" aria-haspopup="dialog">
+        <span class="spine" aria-hidden="true"></span>
+        <span class="tag">Visie 4 · De Spiegel</span>
+        <h3>De ruimere blik</h3>
+        <p class="lijn">&ldquo;Niet de wereld knelt — vaak knelt de bril.&rdquo;</p>
+        <p>Een knellende gedachte is geen feit maar een lens. Door haar vriendelijk te ondervragen — is dit áltijd waar? &hellip;</p>
+        <span class="link">Lees verder &rarr;</span>
+      </button>
+      <button class="card book-card" data-book="vk4" aria-haspopup="dialog">
+        <span class="spine" aria-hidden="true"></span>
+        <span class="tag">Visie 5 · De Ontvangstruimte</span>
+        <h3>De dankbare ontvangst</h3>
+        <p class="lijn">&ldquo;Waarderen wat er is, opent wat komt.&rdquo;</p>
+        <p>De bekendste tak van het manifesteren: richt je op wat je wél wilt, vraag helder, en leef alvast in de toon va&hellip;</p>
+        <span class="link">Lees verder &rarr;</span>
+      </button>
+      <button class="card book-card" data-book="vk5" aria-haspopup="dialog">
+        <span class="spine" aria-hidden="true"></span>
+        <span class="tag">Visie 6 · De Scheppingsroute</span>
+        <h3>De scheppende daad</h3>
+        <p class="lijn">&ldquo;Het onzichtbare wordt zichtbaar in kleine, herhaalde stappen.&rdquo;</p>
+        <p>De nuchterste stroming: een verlangen is pas af als de wereld het kan zien. Grote verandering blijkt zelden éé&hellip;</p>
+        <span class="link">Lees verder &rarr;</span>
+      </button>
+  </div>
+
+  <div class="leesgids">
+    <p class="eyebrow">Waar begin je?</p>
+    <div class="cards">
+      <div class="card"><b>De dromer die wil landen</b><p style="margin-top:.35rem">Begin bij de scheppende daad — en laat je droom wortelen in je dagen.</p></div>
+      <div class="card"><b>De doener die wil voelen</b><p style="margin-top:.35rem">Begin bij de innerlijke stem — en ontdek wat er onder je lijstjes leeft.</p></div>
+      <div class="card"><b>De twijfelaar die wil durven</b><p style="margin-top:.35rem">Begin bij de overtuiging — en geef je geloof in jezelf groeiruimte.</p></div>
+    </div>
+    <p class="soft" style="margin-top:1.6rem;font-size:.88rem">Gedistilleerd uit ruim een eeuw denken en schrijven over manifesteren — verteld in onze eigen woorden, zonder beloftes.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 VANDAAG &middot; gemaakt met aandacht</p>
+  <p>Vandaag is geen vervanging van medische of psychologische zorg.</p>
+</footer>
+
+<div class="overlay" id="vk0" hidden role="dialog" aria-modal="true" aria-labelledby="vk0t">
+  <div class="panel book-panel">
+    <div class="panel-head">
+      <div>
+        <span class="tag" style="color:var(--violet);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600">Visie 1 van 6</span>
+        <h2 id="vk0t">De verbeeldingskracht</h2>
+      </div>
+      <button class="close-btn" data-close aria-label="Sluiten">&times;</button>
+    </div>
+    <p class="lijn">&ldquo;Beelden gaan aan verandering vooraf.&rdquo;</p>
+    <h4>De kerngedachte</h4>
+    <p class="kern">Al ruim een eeuw keert dezelfde gedachte terug: wat je je levendig en met gevoel voorstelt, begint aan je te trekken. Niet omdat de wereld bestellingen uitlevert, maar omdat een helder beeld je aandacht scherpstelt — en aandacht bepaalt wat je opmerkt, wat je kiest en wat je durft.</p><p class="kern">De praktijk is bijna huiselijk: word rustig, roep één moment uit je verlangde toekomst op — met licht, geluid en gevoel — en keer er dagelijks even naar terug. Zo wordt het beeld een stille medewerker die de hele dag met je meekijkt.</p>
+    <h4>Wat je eruit meeneemt</h4>
+    <ul class="book-punten"><li>Eén levendig beeld werkt sterker dan tien vage dromen</li><li>Ontspanning eerst — verbeelding ontvouwt zich in rust</li><li>Herhaling maakt van een beeld een richting</li></ul>
+    <h4>De eerlijke nuance</h4>
+    <p class="book-nuance">Een beeld vervangt geen handelen — het maakt handelen gerichter en lichter.</p>
+    <h4>Zo vertaalt Vandaag het</h4>
+    <p class="kern" style="margin-bottom:0">Deze visie leeft verder in de route <em>De Verbeelding</em>.</p>
+    <div class="panel-actions">
+      <a class="btn-gold" style="padding:.65rem 1.4rem;font-size:.92rem" href="routes/verbeelding.html">Open de route</a>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="vk1" hidden role="dialog" aria-modal="true" aria-labelledby="vk1t">
+  <div class="panel book-panel">
+    <div class="panel-head">
+      <div>
+        <span class="tag" style="color:var(--violet);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600">Visie 2 van 6</span>
+        <h2 id="vk1t">De innerlijke stem</h2>
+      </div>
+      <button class="close-btn" data-close aria-label="Sluiten">&times;</button>
+    </div>
+    <p class="lijn">&ldquo;Onder het denken ligt een stiller weten.&rdquo;</p>
+    <h4>De kerngedachte</h4>
+    <p class="kern">Deze stroming wantrouwt de drukte van het hoofd. Een verlangen dat uit vergelijken en moeten voortkomt, went nooit; een verlangen dat uit stilte opstijgt, draagt je jaren. Manifesteren begint hier daarom niet met plannen, maar met luisteren.</p><p class="kern">In de praktijk: een hand op je borst, één eerlijke vraag, en wachten op het eerste antwoord — een woord, een beeld, een lichamelijke ja of nee. Intuïtie blijkt trainbaar, als een spier die sterker wordt zodra je haar serieus neemt.</p>
+    <h4>Wat je eruit meeneemt</h4>
+    <ul class="book-punten"><li>Stilte is een instrument, geen leegte</li><li>Niet elk verlangen is van jou — sommige zijn geleend</li><li>Je lichaam weet vaak eerder dan je hoofd</li></ul>
+    <h4>De eerlijke nuance</h4>
+    <p class="book-nuance">Voelen wat klopt is het begin — kiezen en in beweging komen blijft aan jou.</p>
+    <h4>Zo vertaalt Vandaag het</h4>
+    <p class="kern" style="margin-bottom:0">Deze visie leeft verder in de route <em>Het Innerlijk Kompas</em>.</p>
+    <div class="panel-actions">
+      <a class="btn-gold" style="padding:.65rem 1.4rem;font-size:.92rem" href="routes/kompas.html">Open de route</a>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="vk2" hidden role="dialog" aria-modal="true" aria-labelledby="vk2t">
+  <div class="panel book-panel">
+    <div class="panel-head">
+      <div>
+        <span class="tag" style="color:var(--violet);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600">Visie 3 van 6</span>
+        <h2 id="vk2t">De overtuiging</h2>
+      </div>
+      <button class="close-btn" data-close aria-label="Sluiten">&times;</button>
+    </div>
+    <p class="lijn">&ldquo;De grens van wat je durft ligt waar je geloof over jezelf ophoudt.&rdquo;</p>
+    <h4>De kerngedachte</h4>
+    <p class="kern">Overtuigingen zijn de bedding waar je verlangen doorheen stroomt. Wie gelooft dat kwaliteiten vastliggen, ontwijkt de plekken waar het spannend wordt; wie gelooft dat ze kunnen groeien, leest moeite als teken van vooruitgang — en reikt daardoor verder.</p><p class="kern">Je verzorgt overtuigingen niet met mooie zinnen alleen, maar met bewijs: herinneringen aan momenten waarop je iets moeilijks wél deed. Dat bewijs, vaak opnieuw bezocht, wordt een bron waaruit je durft te putten als het erop aankomt.</p>
+    <h4>Wat je eruit meeneemt</h4>
+    <ul class="book-punten"><li>“Nog niet” in plaats van “kan ik niet”</li><li>Moeite is een teken van groei, niet van tekort</li><li>Verzamel levend bewijs van eerdere groei</li></ul>
+    <h4>De eerlijke nuance</h4>
+    <p class="book-nuance">Overtuigingen kantelen niet in één avond — ze groeien met ervaringen mee.</p>
+    <h4>Zo vertaalt Vandaag het</h4>
+    <p class="kern" style="margin-bottom:0">Deze visie leeft verder in de route <em>De Krachtbron</em>.</p>
+    <div class="panel-actions">
+      <a class="btn-gold" style="padding:.65rem 1.4rem;font-size:.92rem" href="routes/krachtbron.html">Open de route</a>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="vk3" hidden role="dialog" aria-modal="true" aria-labelledby="vk3t">
+  <div class="panel book-panel">
+    <div class="panel-head">
+      <div>
+        <span class="tag" style="color:var(--violet);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600">Visie 4 van 6</span>
+        <h2 id="vk3t">De ruimere blik</h2>
+      </div>
+      <button class="close-btn" data-close aria-label="Sluiten">&times;</button>
+    </div>
+    <p class="lijn">&ldquo;Niet de wereld knelt — vaak knelt de bril.&rdquo;</p>
+    <h4>De kerngedachte</h4>
+    <p class="kern">Een knellende gedachte is geen feit maar een lens. Door haar vriendelijk te ondervragen — is dit áltijd waar? wat doet deze gedachte met me? wie zou ik zijn zonder? — komt er lucht tussen jou en het verhaal dat je jezelf vertelt.</p><p class="kern">Het speelse hart van deze visie is de omkering: draai de gedachte om en kijk wat er dan zichtbaar wordt. Vaak bevat de situatie meer ruimte dan de eerste blik toeliet — en in die ruimte past een volgende stap.</p>
+    <h4>Wat je eruit meeneemt</h4>
+    <ul class="book-punten"><li>Onderzoek de gedachte, niet alleen de situatie</li><li>Mildheid opent meer dan gelijk krijgen</li><li>Een omgekeerde gedachte toont wat jouw blik toevoegt</li></ul>
+    <h4>De eerlijke nuance</h4>
+    <p class="book-nuance">Ruimer kijken is geen ontkennen van echte problemen — het schept ruimte om er wijzer mee om te gaan.</p>
+    <h4>Zo vertaalt Vandaag het</h4>
+    <p class="kern" style="margin-bottom:0">Deze visie leeft verder in de route <em>De Spiegel</em>.</p>
+    <div class="panel-actions">
+      <a class="btn-gold" style="padding:.65rem 1.4rem;font-size:.92rem" href="routes/spiegel.html">Open de route</a>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="vk4" hidden role="dialog" aria-modal="true" aria-labelledby="vk4t">
+  <div class="panel book-panel">
+    <div class="panel-head">
+      <div>
+        <span class="tag" style="color:var(--violet);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600">Visie 5 van 6</span>
+        <h2 id="vk4t">De dankbare ontvangst</h2>
+      </div>
+      <button class="close-btn" data-close aria-label="Sluiten">&times;</button>
+    </div>
+    <p class="lijn">&ldquo;Waarderen wat er is, opent wat komt.&rdquo;</p>
+    <h4>De kerngedachte</h4>
+    <p class="kern">De bekendste tak van het manifesteren: richt je op wat je wél wilt, vraag helder, en leef alvast in de toon van dankbaarheid. De blijvende kern is aandachtstraining — dankbaarheid stemt je waarneming af op wat er goed gaat en op wat eraan komt.</p><p class="kern">Wie dagelijks drie kleine dingen opmerkt — warm water telt, een groet telt — went zijn blik aan overvloed. En verwachting kleurt waarneming: een open, verwachtingsvolle blik ziet deuren waar een gejaagde blik muren ziet.</p>
+    <h4>Wat je eruit meeneemt</h4>
+    <ul class="book-punten"><li>Dankbaarheid traint je blik voor kansen</li><li>Vraag helder — vaagheid ontvangt vaag</li><li>Verwachting kleurt wat je ziet en durft</li></ul>
+    <h4>De eerlijke nuance</h4>
+    <p class="book-nuance">Aandacht dwingt geen uitkomsten af — ze maakt je ontvankelijk en gemotiveerd. Daarom hoort bij ontvangen altijd ook doen.</p>
+    <h4>Zo vertaalt Vandaag het</h4>
+    <p class="kern" style="margin-bottom:0">Deze visie leeft verder in de route <em>De Ontvangstruimte</em>.</p>
+    <div class="panel-actions">
+      <a class="btn-gold" style="padding:.65rem 1.4rem;font-size:.92rem" href="routes/ontvangst.html">Open de route</a>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="vk5" hidden role="dialog" aria-modal="true" aria-labelledby="vk5t">
+  <div class="panel book-panel">
+    <div class="panel-head">
+      <div>
+        <span class="tag" style="color:var(--violet);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600">Visie 6 van 6</span>
+        <h2 id="vk5t">De scheppende daad</h2>
+      </div>
+      <button class="close-btn" data-close aria-label="Sluiten">&times;</button>
+    </div>
+    <p class="lijn">&ldquo;Het onzichtbare wordt zichtbaar in kleine, herhaalde stappen.&rdquo;</p>
+    <h4>De kerngedachte</h4>
+    <p class="kern">De nuchterste stroming: een verlangen is pas af als de wereld het kan zien. Grote verandering blijkt zelden één sprong — bijna altijd is het een optelsom van stappen die zo klein zijn dat je ze niet kunt weigeren.</p><p class="kern">Twee geheimen: hang de stap aan een vast moment, en zie elke herhaling als een stem voor wie je aan het worden bent. Zo groeit je identiteit met de daad mee — en draagt het ritme je droom op dagen dat de motivatie thuisblijft.</p>
+    <h4>Wat je eruit meeneemt</h4>
+    <ul class="book-punten"><li>Maak de eerste stap belachelijk klein</li><li>Koppel haar aan een vast moment</li><li>Elke stap is een stem voor wie je wordt</li></ul>
+    <h4>De eerlijke nuance</h4>
+    <p class="book-nuance">Begin vóór je je er klaar voor voelt — klaar kom je onderweg.</p>
+    <h4>Zo vertaalt Vandaag het</h4>
+    <p class="kern" style="margin-bottom:0">Deze visie leeft verder in de route <em>De Scheppingsroute</em>.</p>
+    <div class="panel-actions">
+      <a class="btn-gold" style="padding:.65rem 1.4rem;font-size:.92rem" href="routes/schepping.html">Open de route</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="data/routes.js"></script>
+<script src="js/basis.js"></script>
+<script>
+document.querySelectorAll("[data-book]").forEach(function(card){
+  card.addEventListener("click", function(){
+    V.openOverlay(document.getElementById(card.dataset.book));
+  });
+});
+</script>
+</body>
+</html>

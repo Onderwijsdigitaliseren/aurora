@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ik wil iets manifesteren — VANDAAG</title>
+<meta name="description" content="Drie zachte vragen wijzen je een route die bij jouw verlangen past — en zo je eerste stap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/stijl.css">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+
+</head>
+<body>
+
+<div class="starsky" aria-hidden="true"><i></i><i></i></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<header class="site-header">
+  <a class="wordmark" href="index.html" aria-label="Vandaag, naar het begin">
+    <svg width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+      <circle cx="13" cy="13" r="9" stroke="#E8BE7A" stroke-width="1.4"/>
+      <path d="M13 8 v5 l3.5 3.5" stroke="#E8BE7A" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    VANDAAG
+  </a>
+  <nav class="site-nav" aria-label="Hoofdnavigatie">
+    <a href="begin.html" aria-current="page">Begin</a>
+    <a href="ontdek.html">Ontdek</a>
+    <a href="boeken.html">Boeken</a>
+    <a href="mijn-ruimte.html">Mijn ruimte</a>
+    <button class="pill" data-calm aria-pressed="false"><span class="dot" aria-hidden="true"></span> Rust</button>
+  </nav>
+</header>
+
+<main class="page page-center">
+  <div class="flow-inner rise" id="beginFlow">
+    <p class="eyebrow">Ik wil iets manifesteren</p>
+    <h1 class="flow-q" id="bq">Waar sta je nu?</h1>
+    <p class="flow-hint" id="bh">Drie zachte vragen wijzen je een route. Er is geen fout antwoord.</p>
+    <div class="flow-progress" id="bprog" aria-hidden="true"></div>
+    <div class="flow-opts" id="bopts"></div>
+  </div>
+</main>
+<footer class="site-footer">
+  <p>&copy; 2026 VANDAAG &middot; gemaakt met aandacht &middot; <a href="boeken.html">zes visies, zes routes</a></p>
+  <p>Vandaag is geen vervanging van medische of psychologische zorg.</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="data/routes.js"></script>
+<script src="js/basis.js"></script>
+<script>
+(function(){
+  const QUESTIONS = [
+    { q:"Wat trekt je nu het meest?",
+      opts:[["Beelden \u2014 ik wil het v\u00F3\u00F3r me zien",{verbeelding:2}],
+            ["Gevoel \u2014 wat is \u00E9cht van mij?",{kompas:2}],
+            ["Beweging \u2014 ik wil iets doen",{schepping:2}]]},
+    { q:"Wat staat er meestal tussen jou en je verlangen?",
+      opts:[["Twijfel aan mezelf",{krachtbron:2}],
+            ["Ik blijf op dezelfde manier kijken",{spiegel:2}],
+            ["Ongeduld \u2014 moeite met vertrouwen",{ontvangst:2}]]},
+    { q:"Hoe begin je het liefst?",
+      opts:[["In stilte",{kompas:1,ontvangst:1}],
+            ["Met m\u00EDjn verbeelding",{verbeelding:1,spiegel:1}],
+            ["Met een stap, vandaag nog",{schepping:1,krachtbron:1}]]}
+  ];
+  let step = 0, scores = {verbeelding:0,kompas:0,krachtbron:0,spiegel:0,ontvangst:0,schepping:0};
+  const bq = document.getElementById("bq"), bh = document.getElementById("bh");
+  const bopts = document.getElementById("bopts"), bprog = document.getElementById("bprog");
+  function prog(){
+    bprog.innerHTML = "";
+    for(let i=0;i<QUESTIONS.length;i++){
+      const d = document.createElement("i");
+      if(i<step) d.className = "done";
+      bprog.appendChild(d);
+    }
+  }
+  function render(){
+    prog();
+    if(step < QUESTIONS.length){
+      const Q = QUESTIONS[step];
+      bq.textContent = Q.q;
+      bh.textContent = step === 0 ? "Drie zachte vragen wijzen je een route. Er is geen fout antwoord." : "";
+      bopts.innerHTML = "";
+      Q.opts.forEach(([label, w])=>{
+        const b = document.createElement("button");
+        b.className = "opt"; b.textContent = label;
+        b.addEventListener("click", e=>{
+          Object.entries(w).forEach(([k,v])=>scores[k]+=v);
+          if(!V.isCalm()) V.dust.burst(e.clientX, e.clientY);
+          step++; render();
+        });
+        bopts.appendChild(b);
+      });
+    } else {
+      const best = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+      const r = ROUTES[best];
+      V.saveItem("Advies", "Route om te verkennen: " + r.naam);
+      bq.textContent = r.naam;
+      bh.textContent = r.essence + " Een richting, geen vonnis \u2014 oversteken mag altijd.";
+      bopts.innerHTML = "";
+      const open = document.createElement("a");
+      open.className = "btn-gold"; open.href = "routes/" + r.slug + ".html";
+      open.textContent = "Verken deze route";
+      const tool = document.createElement("a");
+      tool.className = "btn-line"; tool.href = "tools/vandaag.html";
+      tool.textContent = "Liever meteen praktisch? Open de tool";
+      const again = document.createElement("button");
+      again.className = "linkish"; again.textContent = "Opnieuw beginnen";
+      again.addEventListener("click", ()=>{ step = 0; scores = {verbeelding:0,kompas:0,krachtbron:0,spiegel:0,ontvangst:0,schepping:0}; render(); });
+      bopts.append(open, tool, again);
+      V.toast("Er wacht een route op je.");
+    }
+  }
+  render();
+})();
+</script>
+</body>
+</html>

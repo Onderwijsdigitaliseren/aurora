@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ontdek de zes routes — VANDAAG</title>
+<meta name="description" content="Zes routes rond hetzelfde stille midden: jouw aandacht. Elke route heeft een oefening van drie minuten.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/stijl.css">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<style>
+.const-wrap{position:relative;max-width:64rem;margin:0 auto;text-align:center}
+.const-arc{position:absolute;inset:auto 0 46%;height:60px;pointer-events:none;opacity:.5}
+.const-row{position:relative;display:flex;justify-content:center;gap:clamp(.6rem,2.6vw,2rem);flex-wrap:wrap}
+.star-link{
+  display:flex;flex-direction:column;align-items:center;gap:.2rem;
+  text-decoration:none;min-width:7.4rem;padding:.4rem .2rem;border-radius:14px;
+  transition:transform .4s var(--ease);
+}
+.star-link:hover,.star-link:focus-visible{transform:translateY(-4px)}
+html.reduced .star-link{transition:none}
+.star-link svg{width:46px;height:46px}
+.star-link .halo{fill:var(--violet);opacity:.16;transform-box:fill-box;transform-origin:center;animation:halo 6s ease-in-out infinite alternate}
+.star-link:nth-child(2n) .halo{animation-delay:-2s}
+.star-link:nth-child(3n) .halo{animation-delay:-3.7s}
+html.reduced .star-link .halo{animation:none}
+.star-link .core{fill:#F6EFD8}
+.star-link .ray{stroke:#F6EFD8;stroke-width:1.4;stroke-linecap:round;opacity:.85}
+.star-link em{
+  font-family:var(--font-display);font-style:italic;font-weight:500;font-size:1.05rem;
+  color:var(--cream);opacity:.85;transition:opacity .3s,color .3s;white-space:nowrap;
+}
+.star-link:hover em,.star-link:focus-visible em{opacity:1;color:var(--gold)}
+@media(min-width:821px){
+  .const-row .star-link:nth-child(1){transform:translateY(14px)}
+  .const-row .star-link:nth-child(2){transform:translateY(-6px)}
+  .const-row .star-link:nth-child(3){transform:translateY(10px)}
+  .const-row .star-link:nth-child(4){transform:translateY(-10px)}
+  .const-row .star-link:nth-child(5){transform:translateY(6px)}
+  .const-row .star-link:nth-child(6){transform:translateY(-14px)}
+  .const-row .star-link:hover{transform:translateY(var(--ty,0)) }
+}
+</style>
+</head>
+<body>
+
+<div class="starsky" aria-hidden="true"><i></i><i></i></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<header class="site-header">
+  <a class="wordmark" href="index.html" aria-label="Vandaag, naar het begin">
+    <svg width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+      <circle cx="13" cy="13" r="9" stroke="#E8BE7A" stroke-width="1.4"/>
+      <path d="M13 8 v5 l3.5 3.5" stroke="#E8BE7A" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    VANDAAG
+  </a>
+  <nav class="site-nav" aria-label="Hoofdnavigatie">
+    <a href="begin.html">Begin</a>
+    <a href="ontdek.html" aria-current="page">Ontdek</a>
+    <a href="boeken.html">Boeken</a>
+    <a href="mijn-ruimte.html">Mijn ruimte</a>
+    <button class="pill" data-calm aria-pressed="false"><span class="dot" aria-hidden="true"></span> Rust</button>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="page-head rise">
+    <p class="eyebrow">Ontdek</p>
+    <h1>Zes routes, &eacute;&eacute;n stil midden.</h1>
+    <p>Elke route benadert je verlangen van een andere kant &mdash; en heeft een oefening van drie minuten.</p>
+  </div>
+  <div class="const-wrap" style="margin-bottom:2.4rem">
+    <div class="const-row" role="list" aria-label="De zes routes">
+    <a class="star-link" href="routes/verbeelding.html">
+      <svg viewBox="0 0 46 46" aria-hidden="true">
+        <circle class="halo" cx="23" cy="23" r="20"/>
+        <line class="ray" x1="23" y1="4" x2="23" y2="14"/>
+        <line class="ray" x1="23" y1="32" x2="23" y2="42"/>
+        <line class="ray" x1="4" y1="23" x2="14" y2="23"/>
+        <line class="ray" x1="32" y1="23" x2="42" y2="23"/>
+        <circle class="core" cx="23" cy="23" r="4"/>
+      </svg>
+      <em>De Verbeelding</em>
+    </a>
+    <a class="star-link" href="routes/kompas.html">
+      <svg viewBox="0 0 46 46" aria-hidden="true">
+        <circle class="halo" cx="23" cy="23" r="20"/>
+        <line class="ray" x1="23" y1="4" x2="23" y2="14"/>
+        <line class="ray" x1="23" y1="32" x2="23" y2="42"/>
+        <line class="ray" x1="4" y1="23" x2="14" y2="23"/>
+        <line class="ray" x1="32" y1="23" x2="42" y2="23"/>
+        <circle class="core" cx="23" cy="23" r="4"/>
+      </svg>
+      <em>Het Innerlijk Kompas</em>
+    </a>
+    <a class="star-link" href="routes/krachtbron.html">
+      <svg viewBox="0 0 46 46" aria-hidden="true">
+        <circle class="halo" cx="23" cy="23" r="20"/>
+        <line class="ray" x1="23" y1="4" x2="23" y2="14"/>
+        <line class="ray" x1="23" y1="32" x2="23" y2="42"/>
+        <line class="ray" x1="4" y1="23" x2="14" y2="23"/>
+        <line class="ray" x1="32" y1="23" x2="42" y2="23"/>
+        <circle class="core" cx="23" cy="23" r="4"/>
+      </svg>
+      <em>De Krachtbron</em>
+    </a>
+    <a class="star-link" href="routes/spiegel.html">
+      <svg viewBox="0 0 46 46" aria-hidden="true">
+        <circle class="halo" cx="23" cy="23" r="20"/>
+        <line class="ray" x1="23" y1="4" x2="23" y2="14"/>
+        <line class="ray" x1="23" y1="32" x2="23" y2="42"/>
+        <line class="ray" x1="4" y1="23" x2="14" y2="23"/>
+        <line class="ray" x1="32" y1="23" x2="42" y2="23"/>
+        <circle class="core" cx="23" cy="23" r="4"/>
+      </svg>
+      <em>De Spiegel</em>
+    </a>
+    <a class="star-link" href="routes/ontvangst.html">
+      <svg viewBox="0 0 46 46" aria-hidden="true">
+        <circle class="halo" cx="23" cy="23" r="20"/>
+        <line class="ray" x1="23" y1="4" x2="23" y2="14"/>
+        <line class="ray" x1="23" y1="32" x2="23" y2="42"/>
+        <line class="ray" x1="4" y1="23" x2="14" y2="23"/>
+        <line class="ray" x1="32" y1="23" x2="42" y2="23"/>
+        <circle class="core" cx="23" cy="23" r="4"/>
+      </svg>
+      <em>De Ontvangstruimte</em>
+    </a>
+    <a class="star-link" href="routes/schepping.html">
+      <svg viewBox="0 0 46 46" aria-hidden="true">
+        <circle class="halo" cx="23" cy="23" r="20"/>
+        <line class="ray" x1="23" y1="4" x2="23" y2="14"/>
+        <line class="ray" x1="23" y1="32" x2="23" y2="42"/>
+        <line class="ray" x1="4" y1="23" x2="14" y2="23"/>
+        <line class="ray" x1="32" y1="23" x2="42" y2="23"/>
+        <circle class="core" cx="23" cy="23" r="4"/>
+      </svg>
+      <em>De Scheppingsroute</em>
+    </a>
+  </div>
+  </div>
+  <div class="cards">
+      <a class="card" href="routes/verbeelding.html">
+        <span class="tag">Visie: de verbeeldingskracht</span>
+        <h3>De Verbeelding</h3>
+        <p>Wat je helder voor je ziet, geeft richting aan wat je doet.</p>
+        <span class="link">Verken de route &rarr;</span>
+      </a>
+      <a class="card" href="routes/kompas.html">
+        <span class="tag">Visie: de innerlijke stem</span>
+        <h3>Het Innerlijk Kompas</h3>
+        <p>Eén vast punt aan je eigen hemel: weten wat écht van jou is.</p>
+        <span class="link">Verken de route &rarr;</span>
+      </a>
+      <a class="card" href="routes/krachtbron.html">
+        <span class="tag">Visie: de overtuiging</span>
+        <h3>De Krachtbron</h3>
+        <p>Wat je over jezelf gelooft, bepaalt hoe ver je durft te reiken.</p>
+        <span class="link">Verken de route &rarr;</span>
+      </a>
+      <a class="card" href="routes/spiegel.html">
+        <span class="tag">Visie: de ruimere blik</span>
+        <h3>De Spiegel</h3>
+        <p>Dezelfde situatie, een ruimere blik.</p>
+        <span class="link">Verken de route &rarr;</span>
+      </a>
+      <a class="card" href="routes/ontvangst.html">
+        <span class="tag">Visie: de dankbare ontvangst</span>
+        <h3>De Ontvangstruimte</h3>
+        <p>Waarderen wat er is, opent de deur voor wat komt.</p>
+        <span class="link">Verken de route &rarr;</span>
+      </a>
+      <a class="card" href="routes/schepping.html">
+        <span class="tag">Visie: de scheppende daad</span>
+        <h3>De Scheppingsroute</h3>
+        <p>Een verlangen wordt werkelijkheid in de kleinste stap van vandaag.</p>
+        <span class="link">Verken de route &rarr;</span>
+      </a>
+  </div>
+  <p style="text-align:center;margin-top:2.2rem"><a class="btn-line" href="tools/vandaag.html">Maak het praktisch: de Vandaag-tool</a></p>
+</main>
+<footer class="site-footer">
+  <p>&copy; 2026 VANDAAG &middot; gemaakt met aandacht &middot; <a href="boeken.html">zes visies, zes routes</a></p>
+  <p>Vandaag is geen vervanging van medische of psychologische zorg.</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="data/routes.js"></script>
+<script src="js/basis.js"></script>
+<script>
+(function(){
+  const params = new URLSearchParams(location.search);
+  if(params.get("ervaar")){
+    const slugs = Object.keys(ROUTES);
+    const slug = slugs[Math.floor(Math.random()*slugs.length)];
+    V.toast("We kozen een oefening voor je\u2026");
+    setTimeout(()=>{ location.replace("routes/" + slug + ".html#oefening"); }, V.isCalm() ? 200 : 1000);
+  }
+})();
+</script>
+</body>
+</html>
